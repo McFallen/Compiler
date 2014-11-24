@@ -86,12 +86,13 @@ prim_val vector_ : int -> 'a -> 'a Vector.vector = 2 "make_vect";
 prim_val update_ : 'a Vector.vector -> int -> 'a -> unit = 3 "set_vect_item";
 
 
+
 (* A parser definition for Fasto, for use with mosmlyac. *)
 
 open Fasto
 open Fasto.UnknownTypes
 
-(* Line 12, file Parser.sml *)
+(* Line 13, file Parser.sml *)
 val yytransl = #[
   257 (* BOOL *),
   258 (* CHAR *),
@@ -517,7 +518,7 @@ val _ = update_ yyact 22
 val d__1__ = peekVal 1 : (int*int)
 val d__2__ = peekVal 0 : Fasto.UnknownTypes.Exp
 in
-( Negate((d__2__)) ) end : Fasto.UnknownTypes.Exp))
+( Negate((d__2__), (d__1__)) ) end : Fasto.UnknownTypes.Exp))
 ;
 (* Rule 23, file Parser.grm, line 80 *)
 val _ = update_ yyact 23
