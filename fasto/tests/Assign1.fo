@@ -1,0 +1,35 @@
+// Writes an integer, i
+fun int writeInt(int i) = write(i)
+
+// Reads an integer and returns it.
+fun int readInt() = read(int)
+
+// Create two dimensional array, where the outer array has n entries.
+fun [[int]] readIntArr( int n ) = map( mkRow, iota(n) )
+
+// Return an array from input, ignores the given param n.
+fun [int] mkRow(int i) = iota(readInt())
+
+// Updates and entire array with fun update.
+fun [int] updateRow([int] n) = map(update, n)
+
+// Adds 3 and the param n.
+fun int update(int n) = add(3, n)
+
+// Sums all entries in a array of integers
+fun int sumArr([int] row) = reduce(add, 0, row) 
+
+// Adds two integers i and j
+fun int add(int i,  int j) = i + j
+
+fun [int] writeIntArr([int] is) = map(writeInt, is)
+// Program function
+fun [int] main() =  let n = readInt() in
+						let x = readIntArr(n) in
+							let x = map(updateRow, x) in
+								let y = map(sumArr, x) in 
+									let p = readInt() in 
+										if (2 < p) then
+											if (p < n) then writeIntArr(x[p]) 
+											else writeIntArr(y)
+										else writeIntArr(y)
