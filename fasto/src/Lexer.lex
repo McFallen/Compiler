@@ -80,6 +80,9 @@ rule Token = parse
 			     getPos lexbuf) }
   | `+`                 { Parser.PLUS   (getPos lexbuf) }
   | `-`                 { Parser.MINUS  (getPos lexbuf) }
+  | `*`                 { Parser.MULIFICENT (getPos lexbuf) }
+  | `/`                 { Parser.DIVERGENT (getPos lexbuf) }
+  | `~`                 { Parser.NEGROMANCER (getPos lexbuf) }
   | "=="                { Parser.DEQ    (getPos lexbuf) }
   | `=`                 { Parser.EQ     (getPos lexbuf) }
   | `<`                 { Parser.LTH    (getPos lexbuf) }
