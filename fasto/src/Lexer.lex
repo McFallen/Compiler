@@ -39,7 +39,7 @@
        | "fun"          => Parser.FUN pos
 
 (* specials: *)
-       | "not"          => Parser.NEGROMANCER pos
+       | "not"          => Parser.HANSNOTTO pos
        | "iota"         => Parser.IOTA pos
        | "replicate"    => Parser.REPLICATE pos
        | "map"          => Parser.MAP pos
@@ -87,6 +87,7 @@ rule Token = parse
   | "=="                { Parser.DEQ    (getPos lexbuf) }
   | `=`                 { Parser.EQ     (getPos lexbuf) }
   | `<`                 { Parser.LTH    (getPos lexbuf) }
+  | "&&"                { Parser.HCANDERSEN (getPos lexbuf) }
   | `(`                 { Parser.LPAR   (getPos lexbuf) }
   | `)`                 { Parser.RPAR   (getPos lexbuf) }
   | `[`                 { Parser.LBRACKET (getPos lexbuf) }

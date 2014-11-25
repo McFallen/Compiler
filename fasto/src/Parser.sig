@@ -11,9 +11,9 @@ type t__9__ = (int*int)
 type t__10__ = (int*int)
 type t__11__ = (int*int)
 type t__12__ = (int*int)
-type t__13__ = string*(int*int)
+type t__13__ = (int*int)
 type t__14__ = (int*int)
-type t__15__ = (int*int)
+type t__15__ = string*(int*int)
 type t__16__ = (int*int)
 type t__17__ = (int*int)
 type t__18__ = (int*int)
@@ -25,9 +25,9 @@ type t__23__ = (int*int)
 type t__24__ = (int*int)
 type t__25__ = (int*int)
 type t__26__ = (int*int)
-type t__27__ = int*(int*int)
+type t__27__ = (int*int)
 type t__28__ = (int*int)
-type t__29__ = (int*int)
+type t__29__ = int*(int*int)
 type t__30__ = (int*int)
 type t__31__ = (int*int)
 type t__32__ = (int*int)
@@ -35,9 +35,11 @@ type t__33__ = (int*int)
 type t__34__ = (int*int)
 type t__35__ = (int*int)
 type t__36__ = (int*int)
-type t__37__ = string*(int*int)
+type t__37__ = (int*int)
 type t__38__ = (int*int)
-type t__39__ = (int*int)
+type t__39__ = string*(int*int)
+type t__40__ = (int*int)
+type t__41__ = (int*int)
 in
 datatype token =
     BOOL of t__1__
@@ -52,33 +54,35 @@ datatype token =
   | FILTER of t__10__
   | FN of t__11__
   | FUN of t__12__
-  | ID of t__13__
-  | IF of t__14__
-  | IN of t__15__
-  | INT of t__16__
-  | IOTA of t__17__
-  | LBRACKET of t__18__
-  | LCURLY of t__19__
-  | LET of t__20__
-  | LPAR of t__21__
-  | LTH of t__22__
-  | MAP of t__23__
-  | MINUS of t__24__
-  | MULIFICENT of t__25__
-  | NEGROMANCER of t__26__
-  | NUM of t__27__
-  | OP of t__28__
-  | PLUS of t__29__
-  | RBRACKET of t__30__
-  | RCURLY of t__31__
-  | READ of t__32__
-  | REDUCE of t__33__
-  | REPLICATE of t__34__
-  | RPAR of t__35__
-  | SCAN of t__36__
-  | STRINGLIT of t__37__
-  | THEN of t__38__
-  | WRITE of t__39__
+  | HANSNOTTO of t__13__
+  | HCANDERSEN of t__14__
+  | ID of t__15__
+  | IF of t__16__
+  | IN of t__17__
+  | INT of t__18__
+  | IOTA of t__19__
+  | LBRACKET of t__20__
+  | LCURLY of t__21__
+  | LET of t__22__
+  | LPAR of t__23__
+  | LTH of t__24__
+  | MAP of t__25__
+  | MINUS of t__26__
+  | MULIFICENT of t__27__
+  | NEGROMANCER of t__28__
+  | NUM of t__29__
+  | OP of t__30__
+  | PLUS of t__31__
+  | RBRACKET of t__32__
+  | RCURLY of t__33__
+  | READ of t__34__
+  | REDUCE of t__35__
+  | REPLICATE of t__36__
+  | RPAR of t__37__
+  | SCAN of t__38__
+  | STRINGLIT of t__39__
+  | THEN of t__40__
+  | WRITE of t__41__
 end;
 
 val Prog :
