@@ -37,9 +37,10 @@ type t__35__ = (int*int)
 type t__36__ = (int*int)
 type t__37__ = (int*int)
 type t__38__ = (int*int)
-type t__39__ = string*(int*int)
-type t__40__ = (int*int)
+type t__39__ = (int*int)
+type t__40__ = string*(int*int)
 type t__41__ = (int*int)
+type t__42__ = (int*int)
 in
 datatype token =
     BOOL of t__1__
@@ -48,13 +49,13 @@ datatype token =
   | COMMA of t__4__
   | DEQ of t__5__
   | DIVERGENT of t__6__
-  | ELSE of t__7__
-  | EOF of t__8__
-  | EQ of t__9__
-  | FILTER of t__10__
-  | FN of t__11__
-  | FUN of t__12__
-  | HANSNOTTO of t__13__
+  | DOLAN of t__7__
+  | ELSE of t__8__
+  | EOF of t__9__
+  | EQ of t__10__
+  | FILTER of t__11__
+  | FN of t__12__
+  | FUN of t__13__
   | HCANDERSEN of t__14__
   | ID of t__15__
   | IF of t__16__
@@ -72,17 +73,18 @@ datatype token =
   | NEGROMANCER of t__28__
   | NUM of t__29__
   | OP of t__30__
-  | PLUS of t__31__
-  | RBRACKET of t__32__
-  | RCURLY of t__33__
-  | READ of t__34__
-  | REDUCE of t__35__
-  | REPLICATE of t__36__
-  | RPAR of t__37__
-  | SCAN of t__38__
-  | STRINGLIT of t__39__
-  | THEN of t__40__
-  | WRITE of t__41__
+  | ORBITER of t__31__
+  | PLUS of t__32__
+  | RBRACKET of t__33__
+  | RCURLY of t__34__
+  | READ of t__35__
+  | REDUCE of t__36__
+  | REPLICATE of t__37__
+  | RPAR of t__38__
+  | SCAN of t__39__
+  | STRINGLIT of t__40__
+  | THEN of t__41__
+  | WRITE of t__42__
 end;
 
 val Prog :

@@ -39,7 +39,7 @@
        | "fun"          => Parser.FUN pos
 
 (* specials: *)
-       | "not"          => Parser.HANSNOTTO pos
+       | "not"          => Parser.DOLAN pos
        | "iota"         => Parser.IOTA pos
        | "replicate"    => Parser.REPLICATE pos
        | "map"          => Parser.MAP pos

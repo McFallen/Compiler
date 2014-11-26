@@ -219,6 +219,13 @@ structure CodeGen = struct
              NONE          => raise Error ("Name " ^ vname ^ " not found", pos)
            | SOME reg_name => [Mips.MOVE (place, reg_name)]
         )
+    | Times (e1, e2, pos) =>
+        let val t1 = newName "times_L"
+            val t2 = newName "times_R"
+            val code1 = compileExp e1 vtable t1
+            val code2 = compileExp e2 vtable t2
+        in code1 @ code2 @ [Mips.MUL (place,t1,t2)]
+        end
     | Plus (e1, e2, pos) =>
         let val t1 = newName "plus_L"
             val t2 = newName "plus_R"
@@ -608,6 +615,7 @@ structure CodeGen = struct
            , Mips.J loop_beg
            , Mips.LABEL loop_end ]
         end
+
 
   (* TODO TASK 1: add case for constant booleans (True/False). *)
 
