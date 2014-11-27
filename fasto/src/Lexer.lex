@@ -89,7 +89,7 @@ rule Token = parse
   | "=="                { Parser.DEQ    (getPos lexbuf) }
   | `=`                 { Parser.EQ     (getPos lexbuf) }
   | `<`                 { Parser.LTH    (getPos lexbuf) }
-  | "&&"                { Parser.DOLAN (getPos lexbuf) }
+  | "&&"                { Parser.ORBITER (getPos lexbuf) }
   | `(`                 { Parser.LPAR   (getPos lexbuf) }
   | `)`                 { Parser.RPAR   (getPos lexbuf) }
   | `[`                 { Parser.LBRACKET (getPos lexbuf) }

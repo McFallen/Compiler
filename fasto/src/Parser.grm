@@ -116,7 +116,7 @@ Exp :     NUM           { Constant (IntVal (#1 $1), #2 $1) }
         | ID LBRACKET Exp RBRACKET
                         { Index (#1 $1, $3, (), $2) }
         | TRUE          { Constant (True, $1) }
-        | FALSE         { Canstant (False, $1) }
+        | FALSE         { Constant (False, $1) }
 ;
 
 Exps : Exp COMMA Exps   { $1 :: $3 }
