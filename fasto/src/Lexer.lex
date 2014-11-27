@@ -49,8 +49,6 @@
        | "read"         => Parser.READ pos
        | "write"        => Parser.WRITE pos
        | "op"           => Parser.OP pos
-       | "true"         => Parser.TRUE pos
-       | "false"        => Parser.FALSE pos
        | _              => Parser.ID (s, pos)
 
  }
@@ -65,6 +63,12 @@ rule Token = parse
   | [`0`-`9`]+          { case Int.fromString (getLexeme lexbuf) of
                                NONE   => lexerError lexbuf "Bad integer"
                              | SOME i => Parser.NUM (i, getPos lexbuf) }
+  | "true"              { case Bool.fromString (getLexeme lexbuf) of
+                               NONE   => lexerError lexbuf "Bad bool"
+                             | SOME b => Parser.TRUE (b, getPos lexbuf) }
+  | "false"             { case Bool.fromString (getLexeme lexbuf) of
+                               NONE   => lexerError lexbuf "Bad bool"
+                             | SOME b => Parser.FALSE (b, getPos lexbuf) }
   | [`a`-`z` `A`-`Z`] [`a`-`z` `A`-`Z` `0`-`9` `_`]*
                         { keyword (getLexeme lexbuf,getPos lexbuf) }
   | `'` ([` ` `!` `#`-`&` `(`-`[` `]`-`~`] | `\`[` `-`~`]) `'`
