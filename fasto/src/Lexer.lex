@@ -49,6 +49,8 @@
        | "read"         => Parser.READ pos
        | "write"        => Parser.WRITE pos
        | "op"           => Parser.OP pos
+       | "true"         => Parser.TRUE pos
+       | "false"         => Parser.FALSE pos
        | _              => Parser.ID (s, pos)
 
  }
