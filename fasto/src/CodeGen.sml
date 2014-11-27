@@ -645,7 +645,13 @@ structure CodeGen = struct
             , Mips.LI (place,"1")
             , Mips.LABEL falseLabel ]
         end
-    
+    | Or (e1, e2, pos) =>
+        let val t1 = newName "or_L"
+            val t2 = newName "or_R"
+            val code1 = compileExp e1 vtable t1
+            val code2 = compileExp e2 vtable t2
+        in code1 @ code2 @ [Mips.OR (place, t1, t2)]
+        end
    | Equal (e1, e2, pos) =>
         let val t1 = newName "eq_L"
             val t2 = newName "eq_R"

@@ -262,12 +262,18 @@ and checkExp ftab vtab (exp : In.Exp)
           in (Int, 
             Out.Divide(e1_dec, e2_dec, pos)) 
           end
+    
     | In.Not (e1, pos)
       => let val (t1, e1') = checkExp ftab vtab e1
          in (Bool, Out.Not(e1', pos))
          end  
 
-        
+    | In.Or (e1, e2, pos)
+      => let val (t1, e1') = checkExp ftab vtab e1
+             val (t2, e2') = checkExp ftab vtab e2
+             in (Bool,
+                Out.Or(e1', e2', pos))
+          end    
 
   (* TODO: TASK 2: Add case for Scan. Quite similar to Reduce. *)
 
