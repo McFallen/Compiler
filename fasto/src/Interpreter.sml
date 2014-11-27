@@ -421,6 +421,12 @@ fun evalExp ( Constant (v,_), vtab, ftab ) = v
         in  evalBinopNum(op div, res1, res2, pos)
         end
 
+  | evalExp ( Not(e1, e2, pos), vtab, ftab ) =
+        let val res1   = evalExp(e1, vtab, ftab)
+            val res2   = evalExp(e2, vtab, ftab)
+        in  evalBinopNum(op div, res1, res2, pos)
+        end
+
 (* Interpreter for Fasto function calls:
     1. f is the function declaration.
     2. args is a list of (already interpreted) arguments.

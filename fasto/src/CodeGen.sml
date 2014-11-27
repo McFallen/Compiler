@@ -621,7 +621,6 @@ structure CodeGen = struct
   And and Or are short-circuiting - look at If to see how that could
   be handled (or your textbook).
    *)
-
     | Times (e1, e2, pos) =>
         let val t1 = newName "times_L"
             val t2 = newName "times_R"
@@ -636,7 +635,12 @@ structure CodeGen = struct
             val code2 = compileExp e2 vtable t2
         in code1 @ code2 @ [Mips.DIV (place,t1,t2)]
         end
-
+    | Not (BoolVal b, pos) =>
+        if(b) then
+          [Mips.LI(place, "0")]
+        else
+          [Mips.LI(place, "1")]
+          
   (* TODO: TASK 2: Add case for Scan.
 
      This can be implemented as sort of a mix between map and reduce.  Start
