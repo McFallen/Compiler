@@ -611,7 +611,11 @@ structure CodeGen = struct
 
 
   (* TODO TASK 1: add case for constant booleans (True/False). *)
-
+    | Constant (BoolVal b, pos) =>
+        if(b) then
+          [Mips.LI(place, "1")]
+        else
+          [Mips.LI(place, "0")]
   (* TODO TASK 1: add cases for Times, Divide, Negate, Not, And, Or.  Look at
   how Plus and Minus are implemented for inspiration.  Remember that
   And and Or are short-circuiting - look at If to see how that could
