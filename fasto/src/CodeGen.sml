@@ -635,25 +635,29 @@ structure CodeGen = struct
             val code2 = compileExp e2 vtable t2
         in code1 @ code2 @ [Mips.DIV (place,t1,t2)]
         end
-   (*| Not (b_exp, pos) =>
+   | Not (b_exp, pos) =>
         let val b = "boolean"
             val code1 = compileExp b_exp vtable b
+            val falseLabel = newName "false"
         in code1 @
-            [Mips. (place, b)]
-
-        if(b) then
-          [Mips.LI(place, "0")]
-        else
-          [Mips.LI(place, "1")]
-    *)
-   | Less (e1, e2, pos) =>
-       let val t1 = newName"lt_L"
-           val t2 = newName"lt_R"
-           val code1 = compileExp e1 vtable t1
-           val code2 = compileExp e2 vtable t2
-       in  code1 @ code2 @
-           [Mips.SLT (place,t1,t2)]
-       end
+            [ Mips.LI (place,"0")
+            , Mips.BNE (b,"0",falseLabel)
+            , Mips.LI (place,"1")
+            , Mips.LABEL falseLabel ]
+        end
+    
+   | Equal (e1, e2, pos) =>
+        let val t1 = newName "eq_L"
+            val t2 = newName "eq_R"
+            val code1 = compileExp e1 vtable t1
+            val code2 = compileExp e2 vtable t2
+            val falseLabel = newName "false"
+        in  code1 @ code2 @
+            [ Mips.LI (place,"0")
+            , Mips.BNE (t1,t2,falseLabel)
+            , Mips.LI (place,"1")
+            , Mips.LABEL falseLabel ]
+        end
           
   (* TODO: TASK 2: Add case for Scan.
 
