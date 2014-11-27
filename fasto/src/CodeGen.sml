@@ -613,9 +613,9 @@ structure CodeGen = struct
   (* TODO TASK 1: add case for constant booleans (True/False). *)
     | Constant (BoolVal b, pos) =>
         if(b) then
-          [Mips.LI(place, "true")]
+          [Mips.LI(place, "1")]
         else
-          [Mips.LI(place, "false")]
+          [Mips.LI(place, "0")]
   (* TODO TASK 1: add cases for Times, Divide, Negate, Not, And, Or.  Look at
   how Plus and Minus are implemented for inspiration.  Remember that
   And and Or are short-circuiting - look at If to see how that could
@@ -635,7 +635,7 @@ structure CodeGen = struct
             val code2 = compileExp e2 vtable t2
         in code1 @ code2 @ [Mips.DIV (place,t1,t2)]
         end
-   | Not (b_exp, pos) =>
+   (*| Not (b_exp, pos) =>
         let val b = "boolean"
             val code1 = compileExp b_exp vtable b
         in code1 @
@@ -645,7 +645,7 @@ structure CodeGen = struct
           [Mips.LI(place, "0")]
         else
           [Mips.LI(place, "1")]
-    
+    *)
    | Less (e1, e2, pos) =>
        let val t1 = newName"lt_L"
            val t2 = newName"lt_R"

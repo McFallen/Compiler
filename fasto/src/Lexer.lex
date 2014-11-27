@@ -63,10 +63,10 @@ rule Token = parse
   | [`0`-`9`]+          { case Int.fromString (getLexeme lexbuf) of
                                NONE   => lexerError lexbuf "Bad integer"
                              | SOME i => Parser.NUM (i, getPos lexbuf) }
-  | "true"              { case Bool.fromString (getLexeme lexbuf) of
+  | "True"              { case Bool.fromString (getLexeme lexbuf) of
                                NONE   => lexerError lexbuf "Bad bool"
                              | SOME b => Parser.TRUE (b, getPos lexbuf) }
-  | "false"             { case Bool.fromString (getLexeme lexbuf) of
+  | "False"             { case Bool.fromString (getLexeme lexbuf) of
                                NONE   => lexerError lexbuf "Bad bool"
                              | SOME b => Parser.FALSE (b, getPos lexbuf) }
   | [`a`-`z` `A`-`Z`] [`a`-`z` `A`-`Z` `0`-`9` `_`]*
