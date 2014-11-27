@@ -56,7 +56,7 @@ datatype token =
   | FILTER of t__11__
   | FN of t__12__
   | FUN of t__13__
-  | HCANDERSEN of t__14__
+  | HANSNOTTO of t__14__
   | ID of t__15__
   | IF of t__16__
   | IN of t__17__

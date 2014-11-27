@@ -100,12 +100,6 @@ and checkExp ftab vtab (exp : In.Exp)
          in (Int,
              Out.Minus (e1_dec, e2_dec, pos))
          end
-    (* Task 1 typecheckign for times, inspration from plus/minus above*)
-    | In.Times (e1, e2, pos)
-      => let val (_, e1_dec, e2_dec) = checkBinOp ftab vtab (pos, Int, e1, e2)
-          in (Int, 
-            Out.Times(e1_dec, e2_dec, pos)) 
-          end  
 
     (* The types for e1, e2 must be the same. The result is always a Bool. *)
     | In.Equal (e1, e2, pos)
@@ -257,6 +251,17 @@ and checkExp ftab vtab (exp : In.Exp)
   (* TODO TASK 1: add cases for Times, Divide, Negate, Not, And, Or.  Look at
   how Plus and Minus are implemented for inspiration.
    *)
+    | In.Times (e1, e2, pos)
+      => let val (_, e1_dec, e2_dec) = checkBinOp ftab vtab (pos, Int, e1, e2)
+          in (Int, 
+            Out.Times(e1_dec, e2_dec, pos)) 
+          end  
+
+    | In.Divide (e1, e2, pos)
+      => let val (_, e1_dec, e2_dec) = checkBinOp ftab vtab (pos, Int, e1, e2)
+          in (Int, 
+            Out.Divide(e1_dec, e2_dec, pos)) 
+          end  
 
   (* TODO: TASK 2: Add case for Scan. Quite similar to Reduce. *)
 

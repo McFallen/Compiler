@@ -12,7 +12,7 @@ open Fasto.UnknownTypes
 %token <int*(int*int)> NUM
 %token <char*(int*int)> CHARLIT
 %token <(int*int)> PLUS MINUS DEQ EQ LTH DIVERGENT MULIFICENT NEGROMANCER 
-%token <(int*int)> DOLAN HCANDERSEN ORBITER LPAR RPAR LBRACKET RBRACKET LCURLY RCURLY
+%token <(int*int)> DOLAN HANSNOTTO ORBITER LPAR RPAR LBRACKET RBRACKET LCURLY RCURLY
 %token <(int*int)> COMMA
 %token <(int*int)> FUN FN IOTA REPLICATE MAP REDUCE FILTER SCAN READ WRITE
 %token <(int*int)> OP
@@ -82,7 +82,7 @@ Exp :     NUM           { Constant (IntVal (#1 $1), #2 $1) }
                         { Divide($1, $3, $2) }
         | NEGROMANCER Exp  
                         { Negate($2, $1) }
-        | Exp HCANDERSEN Exp 
+        | Exp DOLAN Exp 
                         { And($1, $3, $2) }
         | Exp ORBITER Exp 
                         { Or($1, $3, $2) }

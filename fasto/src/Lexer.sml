@@ -41,7 +41,7 @@ local open Obj Lexing in
        | "fun"          => Parser.FUN pos
 
 (* specials: *)
-       | "not"          => Parser.DOLAN pos
+       | "not"          => Parser.HANSNOTTO pos
        | "iota"         => Parser.IOTA pos
        | "replicate"    => Parser.REPLICATE pos
        | "map"          => Parser.MAP pos
@@ -73,7 +73,7 @@ and action_17 lexbuf = (
 and action_16 lexbuf = (
  Parser.LPAR   (getPos lexbuf) )
 and action_15 lexbuf = (
- Parser.HCANDERSEN (getPos lexbuf) )
+ Parser.DOLAN (getPos lexbuf) )
 and action_14 lexbuf = (
  Parser.LTH    (getPos lexbuf) )
 and action_13 lexbuf = (

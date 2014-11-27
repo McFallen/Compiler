@@ -176,12 +176,6 @@ fun evalExp ( Constant (v,_), vtab, ftab ) = v
         in  evalBinopNum(op +, res1, res2, pos)
         end
 
-  | evalExp ( Times(e1, e2, pos), vtab, ftab ) =
-        let val res1   = evalExp(e1, vtab, ftab)
-            val res2   = evalExp(e2, vtab, ftab)
-        in  evalBinopNum(op *, res1, res2, pos)
-        end
-
   | evalExp ( Minus(e1, e2, pos), vtab, ftab ) =
         let val res1   = evalExp(e1, vtab, ftab)
             val res2   = evalExp(e2, vtab, ftab)
@@ -414,6 +408,18 @@ fun evalExp ( Constant (v,_), vtab, ftab ) = v
   (* TODO TASK 1: add cases for Times, Divide, Negate, Not, And, Or.  Look at
   how Plus and Minus are implemented for inspiration.
    *)
+
+  | evalExp ( Times(e1, e2, pos), vtab, ftab ) =
+        let val res1   = evalExp(e1, vtab, ftab)
+            val res2   = evalExp(e2, vtab, ftab)
+        in  evalBinopNum(op *, res1, res2, pos)
+        end
+
+  | evalExp ( Divide(e1, e2, pos), vtab, ftab ) =
+        let val res1   = evalExp(e1, vtab, ftab)
+            val res2   = evalExp(e2, vtab, ftab)
+        in  evalBinopNum(op div, res1, res2, pos)
+        end
 
 (* Interpreter for Fasto function calls:
     1. f is the function declaration.
