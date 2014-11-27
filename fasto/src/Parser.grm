@@ -73,7 +73,6 @@ Exp :     NUM           { Constant (IntVal (#1 $1), #2 $1) }
         | STRINGLIT     { StringLit $1 }
         | LCURLY Exps RCURLY
                         { ArrayLit ($2, (), $1) }
-        // yoyo
         | Exp PLUS  Exp { Plus ($1, $3, $2) }
         | Exp MINUS Exp { Minus($1, $3, $2) }
         | Exp MULIFICENT Exp  
