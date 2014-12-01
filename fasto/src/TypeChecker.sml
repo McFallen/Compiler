@@ -262,6 +262,11 @@ and checkExp ftab vtab (exp : In.Exp)
           in (Int, 
             Out.Divide(e1_dec, e2_dec, pos)) 
           end
+
+    | In.Negate (e1, pos)
+      => let val (t1, e1') = checkExp ftab vtab e1
+         in (Int, Out.Negate(e1', pos))
+         end
     
     | In.Not (e1, pos)
       => let val (t1, e1') = checkExp ftab vtab e1
@@ -271,10 +276,23 @@ and checkExp ftab vtab (exp : In.Exp)
     | In.Or (e1, e2, pos)
       => let val (t1, e1') = checkExp ftab vtab e1
              val (t2, e2') = checkExp ftab vtab e2
-             in (Bool,
-                Out.Or(e1', e2', pos))
-          end    
+             in
+                if(t1 = Bool andalso t2 = Bool) then
+                  (Bool, Out.Or(e1', e2', pos))
+                else
+                  raise Error("Type Error: Non-boolean arguments given to ||", pos)
+          end
 
+    | In.And (e1, e2, pos)
+      => let val (t1, e1') = checkExp ftab vtab e1
+             val (t2, e2') = checkExp ftab vtab e2
+             in
+                if(t1 = Bool andalso t2 = Bool) then
+                  (Bool, Out.And(e1', e2', pos))
+                else
+                  raise Error("Type Error: Non-boolean arguments given to &&", pos)
+          end  
+    
   (* TODO: TASK 2: Add case for Scan. Quite similar to Reduce. *)
 
   (* TODO: TASK 2: Add case for Filter.  Quite similar to map, except that the

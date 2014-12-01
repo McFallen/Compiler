@@ -635,7 +635,14 @@ structure CodeGen = struct
             val code2 = compileExp e2 vtable t2
         in code1 @ code2 @ [Mips.DIV (place,t1,t2)]
         end
-   | Not (b_exp, pos) =>
+
+    | Negate (e1, pos) =>
+        let val t1 = newName "negateVal"
+            val code1 = compileExp e1 vtable t1
+        in code1 @ [Mips.SUB(place, "0", t1)]
+        end
+
+    | Not (b_exp, pos) =>
         let val b = "boolean"
             val code1 = compileExp b_exp vtable b
             val falseLabel = newName "false"
@@ -645,26 +652,33 @@ structure CodeGen = struct
             , Mips.LI (place,"1")
             , Mips.LABEL falseLabel ]
         end
+    
     | Or (e1, e2, pos) =>
-        let val t1 = newName "or_L"
-            val t2 = newName "or_R"
-            val code1 = compileExp e1 vtable t1
-            val code2 = compileExp e2 vtable t2
-        in code1 @ code2 @ [Mips.OR (place, t1, t2)]
+        let val trueLabel = newName "trueLabel"
+            val falseLabel = newName "falseLabel"
+            val endLabel = newName "endLabel"
+            val code1 = compileCond e1 vtable trueLabel falseLabel
+            val code2 = compileCond e2 vtable trueLabel endLabel
+        in  [Mips.ADD(place, "0", "0")] @ 
+              code1 @ 
+              [Mips.LABEL falseLabel] @ 
+              code2 @ 
+              [Mips.LABEL trueLabel, Mips.ADD(place, "0", "1"), Mips.LABEL endLabel]
         end
-   | Equal (e1, e2, pos) =>
-        let val t1 = newName "eq_L"
-            val t2 = newName "eq_R"
-            val code1 = compileExp e1 vtable t1
-            val code2 = compileExp e2 vtable t2
-            val falseLabel = newName "false"
-        in  code1 @ code2 @
-            [ Mips.LI (place,"0")
-            , Mips.BNE (t1,t2,falseLabel)
-            , Mips.LI (place,"1")
-            , Mips.LABEL falseLabel ]
+
+    | And (e1, e2, pos) =>
+        let val trueLabel = newName "trueLabel"
+            val falseLabel = newName "falseLabel"
+            val endLabel = newName "endLabel"
+            val code1 = compileCond e1 vtable trueLabel falseLabel
+            val code2 = compileCond e2 vtable endLabel falseLabel
+        in  [Mips.ADD(place, "0", "1")] @ 
+              code1 @ 
+              [Mips.LABEL trueLabel] @ 
+              code2 @ 
+              [Mips.LABEL falseLabel, Mips.ADD(place, "0", "0"), Mips.LABEL endLabel]
         end
-          
+         
   (* TODO: TASK 2: Add case for Scan.
 
      This can be implemented as sort of a mix between map and reduce.  Start
