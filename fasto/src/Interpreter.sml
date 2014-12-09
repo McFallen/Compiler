@@ -476,10 +476,10 @@ and evalFunArg (FunName fid, vtab, ftab, callpos) =
     in
       case fexp of
         NONE   => raise Error("Function "^fid^" is not in SymTab!", callpos)
+        (* (fn aargs => callFunWithVtable(f, aargs, vtab, ftab, callpos), getFunRTP f *)
       | SOME f => (fn aargs => callFun(f, aargs, ftab, callpos), getFunRTP f)
     end
    (* TODO TASK 3:
-
    Add case for Lambda.  This can be done by constructing an
    appropriate FunDec from the lambda and passing it to
    callFunWithVtable.
@@ -501,6 +501,5 @@ and evalProg prog =
             [] => callFun(m, [], ftab, (0,0))
           | _  => raise Error("main is not allowed to have parameters", getFunPos m)
     end
-
 end
 

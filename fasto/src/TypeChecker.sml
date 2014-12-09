@@ -217,6 +217,7 @@ and checkExp ftab vtab (exp : In.Exp)
              val (f', f_arg_type) =
                case checkFunArg (f, vtab, ftab, pos) of
                    (f', res, [a1, a2]) =>
+                   (* where do these args come*)
                    if a1 = a2 andalso a2 = res
                    then (f', res)
                    else raise Error
@@ -247,7 +248,7 @@ and checkExp ftab vtab (exp : In.Exp)
          end
 
   (* TODO TASK 1: add case for constant booleans (True/False). *)
-
+  (* We used Constants #yolo*)
   (* TODO TASK 1: add cases for Times, Divide, Negate, Not, And, Or.  Look at
   how Plus and Minus are implemented for inspiration.
    *)
@@ -294,7 +295,34 @@ and checkExp ftab vtab (exp : In.Exp)
           end  
     
   (* TODO: TASK 2: Add case for Scan. Quite similar to Reduce. *)
-
+    | In.Scan (f, n_exp, arr_exp, _, pos)
+      => let val (n_type, n_dec) = checkExp ftab vtab n_exp
+             val (arr_type, arr_dec) = checkExp ftab vtab arr_exp
+             val elem_type =
+               case arr_type of
+                  Array t => t
+                | other => raise Error ("Scan: argument is not an array", pos)
+             val (f', f_arg_type) = 
+               case checkFunArg (f, vtab, ftab, pos) of
+                   (f', res, [a1, a2]) =>
+                   if a1 = a2 andalso a2 = res
+                   then (f', res)
+                   else raise Error
+                          ("Scan: incompatible function type of "
+                           ^ In.ppFunArg 0 f ^": " ^ showFunType ([a1, a2], res), pos)
+                 | (_, res, args) =>
+                   raise Error ("Scan: incompatible function type of "
+                                ^ In.ppFunArg 0 f ^ ": " ^ showFunType (args, res), pos)
+             fun err (s, t) =
+                 Error ("Scan: unexpected " ^ s ^ " type " ^ ppType t ^
+                        ", expected " ^ ppType f_arg_type, pos)
+         in if elem_type = f_arg_type
+            then if elem_type = n_type
+                 then (elem_type,
+                       Out.Scan (f', n_dec, arr_dec, elem_type, pos))
+                 else raise (err ("neutral element", n_type))
+            else raise err ("array element", elem_type)
+         end
   (* TODO: TASK 2: Add case for Filter.  Quite similar to map, except that the
      return type is the same as the input array type, and the function must
      return bool.  *)

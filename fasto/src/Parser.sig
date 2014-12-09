@@ -1,21 +1,21 @@
 local
 type t__1__ = (int*int)
 type t__2__ = (int*int)
-type t__3__ = char*(int*int)
-type t__4__ = (int*int)
+type t__3__ = (int*int)
+type t__4__ = char*(int*int)
 type t__5__ = (int*int)
 type t__6__ = (int*int)
 type t__7__ = (int*int)
 type t__8__ = (int*int)
 type t__9__ = (int*int)
 type t__10__ = (int*int)
-type t__11__ = bool*(int*int)
-type t__12__ = (int*int)
+type t__11__ = (int*int)
+type t__12__ = bool*(int*int)
 type t__13__ = (int*int)
 type t__14__ = (int*int)
 type t__15__ = (int*int)
-type t__16__ = string*(int*int)
-type t__17__ = (int*int)
+type t__16__ = (int*int)
+type t__17__ = string*(int*int)
 type t__18__ = (int*int)
 type t__19__ = (int*int)
 type t__20__ = (int*int)
@@ -29,9 +29,9 @@ type t__27__ = (int*int)
 type t__28__ = (int*int)
 type t__29__ = (int*int)
 type t__30__ = (int*int)
-type t__31__ = int*(int*int)
+type t__31__ = (int*int)
 type t__32__ = (int*int)
-type t__33__ = (int*int)
+type t__33__ = int*(int*int)
 type t__34__ = (int*int)
 type t__35__ = (int*int)
 type t__36__ = (int*int)
@@ -40,57 +40,61 @@ type t__38__ = (int*int)
 type t__39__ = (int*int)
 type t__40__ = (int*int)
 type t__41__ = (int*int)
-type t__42__ = string*(int*int)
+type t__42__ = (int*int)
 type t__43__ = (int*int)
-type t__44__ = bool*(int*int)
+type t__44__ = string*(int*int)
 type t__45__ = (int*int)
+type t__46__ = bool*(int*int)
+type t__47__ = (int*int)
 in
 datatype token =
-    BOOL of t__1__
-  | CHAR of t__2__
-  | CHARLIT of t__3__
-  | COMMA of t__4__
-  | DEQ of t__5__
-  | DIVERGENT of t__6__
-  | DOLAN of t__7__
-  | ELSE of t__8__
-  | EOF of t__9__
-  | EQ of t__10__
-  | FALSE of t__11__
-  | FILTER of t__12__
-  | FN of t__13__
-  | FUN of t__14__
-  | HANSNOTTO of t__15__
-  | ID of t__16__
-  | IF of t__17__
-  | IN of t__18__
-  | INT of t__19__
-  | IOTA of t__20__
-  | LBRACKET of t__21__
-  | LCURLY of t__22__
-  | LET of t__23__
-  | LPAR of t__24__
-  | LTH of t__25__
-  | MAP of t__26__
-  | MINUS of t__27__
-  | MULIFICENT of t__28__
-  | NEGROMANCER of t__29__
-  | NOT of t__30__
-  | NUM of t__31__
-  | OP of t__32__
-  | ORBITER of t__33__
-  | PLUS of t__34__
-  | RBRACKET of t__35__
-  | RCURLY of t__36__
-  | READ of t__37__
-  | REDUCE of t__38__
-  | REPLICATE of t__39__
-  | RPAR of t__40__
-  | SCAN of t__41__
-  | STRINGLIT of t__42__
-  | THEN of t__43__
-  | TRUE of t__44__
-  | WRITE of t__45__
+    ARROW of t__1__
+  | BOOL of t__2__
+  | CHAR of t__3__
+  | CHARLIT of t__4__
+  | COMMA of t__5__
+  | DEQ of t__6__
+  | DIVERGENT of t__7__
+  | DOLAN of t__8__
+  | ELSE of t__9__
+  | EOF of t__10__
+  | EQ of t__11__
+  | FALSE of t__12__
+  | FILTER of t__13__
+  | FN of t__14__
+  | FUN of t__15__
+  | HANSNOTTO of t__16__
+  | ID of t__17__
+  | IF of t__18__
+  | IN of t__19__
+  | INT of t__20__
+  | IOTA of t__21__
+  | LAMBDA of t__22__
+  | LBRACKET of t__23__
+  | LCURLY of t__24__
+  | LET of t__25__
+  | LPAR of t__26__
+  | LTH of t__27__
+  | MAP of t__28__
+  | MINUS of t__29__
+  | MULIFICENT of t__30__
+  | NEGROMANCER of t__31__
+  | NOT of t__32__
+  | NUM of t__33__
+  | OP of t__34__
+  | ORBITER of t__35__
+  | PLUS of t__36__
+  | RBRACKET of t__37__
+  | RCURLY of t__38__
+  | READ of t__39__
+  | REDUCE of t__40__
+  | REPLICATE of t__41__
+  | RPAR of t__42__
+  | SCAN of t__43__
+  | STRINGLIT of t__44__
+  | THEN of t__45__
+  | TRUE of t__46__
+  | WRITE of t__47__
 end;
 
 val Prog :

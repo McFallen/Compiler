@@ -12,10 +12,10 @@ open Fasto.UnknownTypes
 %token <int*(int*int)> NUM
 %token <char*(int*int)> CHARLIT
 %token <bool*(int*int)> FALSE TRUE
-%token <(int*int)> PLUS MINUS DEQ EQ LTH NEGROMANCER NOT
+%token <(int*int)> PLUS MINUS DEQ EQ LTH NEGROMANCER NOT ARROW
 %token <(int*int)> MULIFICENT DIVERGENT DOLAN HANSNOTTO ORBITER LPAR RPAR LBRACKET RBRACKET LCURLY RCURLY
 %token <(int*int)> COMMA
-%token <(int*int)> FUN FN IOTA REPLICATE MAP REDUCE FILTER SCAN READ WRITE
+%token <(int*int)> FUN FN IOTA REPLICATE MAP REDUCE FILTER SCAN READ WRITE LAMBDA
 %token <(int*int)> OP
 
 %nonassoc ifprec letprec
@@ -110,6 +110,8 @@ Exp :     NUM           { Constant (IntVal (#1 $1), #2 $1) }
                         { Map ($3, $5, (), (), $1) }
         | REDUCE LPAR OP BinOp COMMA Exp COMMA Exp RPAR
                         { Reduce ($4, $6, $8, (), $1) }
+        | SCAN LPAR FunArg COMMA Exp COMMA Exp RPAR
+                        { Scan ($3, $5, $7, (), $1)}
         | LPAR Exp RPAR { $2 }
         | LET ID EQ Exp IN Exp %prec letprec
                         { Let (Dec (#1 $2, $4, $3), $6, $1) }
