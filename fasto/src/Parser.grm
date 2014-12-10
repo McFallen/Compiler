@@ -12,8 +12,8 @@ open Fasto.UnknownTypes
 %token <int*(int*int)> NUM
 %token <char*(int*int)> CHARLIT
 %token <bool*(int*int)> FALSE TRUE
-%token <(int*int)> PLUS MINUS DEQ EQ LTH NEGROMANCER NOT ARROW
-%token <(int*int)> MULIFICENT DIVERGENT DOLAN HANSNOTTO ORBITER LPAR RPAR LBRACKET RBRACKET LCURLY RCURLY
+%token <(int*int)> PLUS MINUS DEQ EQ LTH NEGRO NOT ARROW
+%token <(int*int)> TIMES DIV AND NOT OR LPAR RPAR LBRACKET RBRACKET LCURLY RCURLY
 %token <(int*int)> COMMA
 %token <(int*int)> FUN FN IOTA REPLICATE MAP REDUCE FILTER SCAN READ WRITE LAMBDA
 %token <(int*int)> OP
@@ -22,7 +22,7 @@ open Fasto.UnknownTypes
 %left DEQ LTH
 %left NOT
 %left PLUS MINUS
-%nonassoc MULIFICENT DIVERGENT NEGROMANCER
+%nonassoc TIMES DIV NEGRO
 
 %start Prog
 %type <Fasto.UnknownTypes.Prog> Prog
@@ -77,14 +77,14 @@ Exp :     NUM           { Constant (IntVal (#1 $1), #2 $1) }
                         { ArrayLit ($2, (), $1) }
         | Exp PLUS  Exp { Plus ($1, $3, $2) }
         | Exp MINUS Exp { Minus($1, $3, $2) }
-        | Exp MULIFICENT Exp  
+        | Exp TIMES Exp  
                         { Times($1, $3, $2) }
-        | Exp DIVERGENT Exp  
+        | Exp DIV Exp  
                         { Divide($1, $3, $2) }
-        | NEGROMANCER Exp  
+        | NEGRO Exp  
                         { Negate($2, $1) }
-        | Exp DOLAN Exp { And($1, $3, $2) }
-        | Exp ORBITER Exp 
+        | Exp AND Exp { And($1, $3, $2) }
+        | Exp OR Exp 
                         { Or($1, $3, $2) }
         
         | Exp DEQ   Exp { Equal($1, $3, $2) }
@@ -119,7 +119,7 @@ Exp :     NUM           { Constant (IntVal (#1 $1), #2 $1) }
                         { Index (#1 $1, $3, (), $2) }
         | TRUE          { Constant ( BoolVal (#1 $1), #2 $1) }
         | FALSE         { Constant ( BoolVal (#1 $1), #2 $1) }
-        | HANSNOTTO Exp { Not ( $2, $1 ) }     
+        | NOT Exp { Not ( $2, $1 ) }     
 ;
 
 Exps : Exp COMMA Exps   { $1 :: $3 }

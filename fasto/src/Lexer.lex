@@ -39,7 +39,7 @@
        | "fun"          => Parser.FUN pos
        | "fn"           => Parser.LAMBDA pos
 (* specials: *)
-       | "not"          => Parser.HANSNOTTO pos
+       | "not"          => Parser.NOT pos
        | "iota"         => Parser.IOTA pos
        | "replicate"    => Parser.REPLICATE pos
        | "map"          => Parser.MAP pos
@@ -87,15 +87,15 @@ rule Token = parse
 			     getPos lexbuf) }
   | `+`                 { Parser.PLUS   (getPos lexbuf) }
   | `-`                 { Parser.MINUS  (getPos lexbuf) }
-  | `*`                 { Parser.MULIFICENT (getPos lexbuf) }
-  | `/`                 { Parser.DIVERGENT (getPos lexbuf) }
-  | `~`                 { Parser.NEGROMANCER (getPos lexbuf) }
+  | `*`                 { Parser.TIMES (getPos lexbuf) }
+  | `/`                 { Parser.DIV (getPos lexbuf) }
+  | `~`                 { Parser.NEGRO (getPos lexbuf) }
   | "=="                { Parser.DEQ    (getPos lexbuf) }
   | "=>"                { Parser.ARROW (getPos lexbuf) }
   | `=`                 { Parser.EQ     (getPos lexbuf) }
   | `<`                 { Parser.LTH    (getPos lexbuf) }
-  | "||"                { Parser.ORBITER (getPos lexbuf) }
-  | "&&"                { Parser.DOLAN (getPos lexbuf) }
+  | "||"                { Parser.OR (getPos lexbuf) }
+  | "&&"                { Parser.AND (getPos lexbuf) }
   | `(`                 { Parser.LPAR   (getPos lexbuf) }
   | `)`                 { Parser.RPAR   (getPos lexbuf) }
   | `[`                 { Parser.LBRACKET (getPos lexbuf) }

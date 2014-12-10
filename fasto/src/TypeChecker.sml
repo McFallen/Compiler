@@ -318,7 +318,7 @@ and checkExp ftab vtab (exp : In.Exp)
                         ", expected " ^ ppType f_arg_type, pos)
          in if elem_type = f_arg_type
             then if elem_type = n_type
-                 then (elem_type,
+                 then (Array elem_type,
                        Out.Scan (f', n_dec, arr_dec, elem_type, pos))
                  else raise (err ("neutral element", n_type))
             else raise err ("array element", elem_type)

@@ -41,7 +41,7 @@ local open Obj Lexing in
        | "fun"          => Parser.FUN pos
        | "fn"           => Parser.LAMBDA pos
 (* specials: *)
-       | "not"          => Parser.HANSNOTTO pos
+       | "not"          => Parser.NOT pos
        | "iota"         => Parser.IOTA pos
        | "replicate"    => Parser.REPLICATE pos
        | "map"          => Parser.MAP pos
@@ -73,9 +73,9 @@ and action_21 lexbuf = (
 and action_20 lexbuf = (
  Parser.LPAR   (getPos lexbuf) )
 and action_19 lexbuf = (
- Parser.DOLAN (getPos lexbuf) )
+ Parser.AND (getPos lexbuf) )
 and action_18 lexbuf = (
- Parser.ORBITER (getPos lexbuf) )
+ Parser.OR (getPos lexbuf) )
 and action_17 lexbuf = (
  Parser.LTH    (getPos lexbuf) )
 and action_16 lexbuf = (
@@ -85,11 +85,11 @@ and action_15 lexbuf = (
 and action_14 lexbuf = (
  Parser.DEQ    (getPos lexbuf) )
 and action_13 lexbuf = (
- Parser.NEGROMANCER (getPos lexbuf) )
+ Parser.NEGRO (getPos lexbuf) )
 and action_12 lexbuf = (
- Parser.DIVERGENT (getPos lexbuf) )
+ Parser.DIV (getPos lexbuf) )
 and action_11 lexbuf = (
- Parser.MULIFICENT (getPos lexbuf) )
+ Parser.TIMES (getPos lexbuf) )
 and action_10 lexbuf = (
  Parser.MINUS  (getPos lexbuf) )
 and action_9 lexbuf = (
