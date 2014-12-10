@@ -119,7 +119,7 @@ Exp :     NUM           { Constant (IntVal (#1 $1), #2 $1) }
                         { Index (#1 $1, $3, (), $2) }
         | TRUE          { Constant ( BoolVal (#1 $1), #2 $1) }
         | FALSE         { Constant ( BoolVal (#1 $1), #2 $1) }
-        | HANSNOTTO Exp { Not ( $2, $1 ) }        
+        | HANSNOTTO Exp { Not ( $2, $1 ) }     
 ;
 
 Exps : Exp COMMA Exps   { $1 :: $3 }
