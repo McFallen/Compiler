@@ -513,7 +513,7 @@ structure CodeGen = struct
            @ loop_replicate
            @ loop_footer
         end
-
+    (* Map(f(), acc, [a1,a2]) = [f(acc, a1), f(acc, a2)] *)
     | Map (farg, arr_exp, elem_type, ret_type, pos) =>
         let val size_reg = newName "size_reg" (* size of input/output array *)
             val arr_reg  = newName "arr_reg" (* address of array *)
@@ -687,59 +687,46 @@ structure CodeGen = struct
      accumulator and the current element. *)
 
     | Scan (farg, acc_exp, arr_exp, elem_type, pos) =>
-        let val size_reg = newName "size_reg" (* size of input/output array *)
-            val arr_reg = newName "arr_reg" (* address of array *)
-            val res_reg = newName "res_reg" (* result register *)
-            val nxt_elem_reg = newName "nxt_elem_reg" (* address of next single element *)
-            val lst_elem_reg = newName "lst_elem_reg" (* adress of last single element *)
-            val ret_type = elem_type
-            val arr_code = compileExp arr_exp vtable arr_reg
+        let val in_size_reg = newName "in_size_reg" (* size of input array *)
+            val out_size_reg = newName "out_size_reg" (* size of input array *)
+            val arr_addr_reg = newName "arr_addr_reg" (* address of in array *)
+            val res_reg = newName "acc_reg" (* register of accumulated value *)
+            val elem_addr_reg = "elem_addr_reg" (* register of element we want to load*)
+            val elem_reg = "elem_reg" (* register containing the element from the element address*)
 
-            val get_size = [ Mips.LW (size_reg, arr_reg, "0") ]
+            (* puts the value of arr_exp into register arr_addr_reg *)
+            val arr_code = compileExp arr_exp vtable arr_addr_reg 
+            val get_size = 
+              [ Mips.LW (in_size_reg, arr_addr_reg, "0")   (* retrieves size of input array *)
+              , Mips.ADDI (out_size_reg, in_size_reg, "1") (* size of output array is in_size + 1 *)
+              ]
 
-            val addr_reg = newName "addr_reg" (* adress of element in new array *)
-            val i_reg = newName "i_reg"
-            val init_regs = [ Mips.ADDI (addr_reg, place, "4")
-                            , Mips.MOVE (i_reg, "0")
-                            , Mips.ADDI (nxt_elem_reg, arr_reg, "4")
-                            , Mips.ADDI (lst_elem_reg, arr_reg, "4") ]
+            val init_regs =
+              [ Mips.LI (i_reg, "0")                       (* iterator initializes to 0*)
+              , Mips.ADDI (elem_addr_reg, arr_addr_reg, "4")  (* sets element register to the first element, due to the first being the size of the array *)
+              , Mips.LI (res_reg, "0")
+              , Mips.
+              ]
 
-            val loop_beg = newName "loop_beg"
-            val loop_end = newName "loop_end"
-            val tmp_reg = newName "tmp_reg"
+            val while_start = newName "while_start"
+            val while_end = newName "while_end"
+            val all_end = newName "all_end"
+            val if_false = newName "if_false"
 
-            val loop_header = [ Mips.LABEL (loop_beg)
-                              , Mips.SUB (tmp_reg, i_reg, size_reg)
-                              , Mips.BGEZ (tmp_reg, loop_end) ]
+            val scan_start = 
+              [ Mips.LABEL("while_start")
+              , Mips.SLT(tmp_reg, i_reg, size_reg)
+              , Mips.BEQ(tmp_reg, "0", while_end)
+              ]
+            val scan_loop = 
+              [ Mips.LW(elem_reg, elem_addr_reg, "0")
+              , 
+              ,
+              ]
 
-            val loop0 =
-              case getElemSize elem_type of
-                    One => [ Mips.LB(res_reg, lst_elem_reg, "0") ]
-                           @ Mips.LB(nxt_elem_reg, nxt_elem_reg, "0")
-                           :: applyFunArg(farg, [res_reg], vtable, res_reg, pos)
-                           @ [ Mips.ADDI(lst_elem_reg, lst_elem_reg, "1") ]
-                           @ [ Mips.ADDI(nxt_elem_reg, nxt_elem_reg, "1") ]
-                  | Four => [ Mips.LB(res_reg, lst_elem_reg, "0") ]
-                           @ Mips.LB(nxt_elem_reg, nxt_elem_reg, "0")
-                           :: applyFunArg(farg, [res_reg], vtable, res_reg, pos)
-                           @ [ Mips.ADDI(lst_elem_reg, lst_elem_reg, "4") ]
-                           @ [ Mips.ADDI(nxt_elem_reg, nxt_elem_reg, "4") ]
-            
-            val loop1 =
-              case getElemSize ret_type of
-                  One => [ Mips.SB (res_reg, addr_reg, "0") ]
-                | Four => [ Mips.SW (res_reg, addr_reg, "0") ]
-
-              val loop_footer =
-                [ Mips.ADDI (addr_reg, addr_reg,
-                             makeConst (elemSizeToInt (getElemSize ret_type)))
-                , Mips.ADDI (i_reg, i_reg, "1")
-                , Mips.J loop_beg
-                , Mips.LABEL loop_end
-                ]
             in arr_code
                @ get_size
-               @ dynalloc (size_reg, place, ret_type)
+               @ dynalloc (out_size_reg, place, elem_type)
                @ init_regs
                @ loop_header
                @ loop0
@@ -748,58 +735,6 @@ structure CodeGen = struct
           end
 
 
-      | Map (farg, arr_exp, elem_type, ret_type, pos) =>
-        let val size_reg = newName "size_reg" (* size of input/output array *)
-            val arr_reg  = newName "arr_reg" (* address of array *)
-            val elem_reg = newName "elem_reg" (* address of single element *)
-            val res_reg = newName "res_reg"
-            val arr_code = compileExp arr_exp vtable arr_reg
-
-            val get_size = [ Mips.LW (size_reg, arr_reg, "0") ]
-
-            val addr_reg = newName "addr_reg" (* address of element in new array *)
-            val i_reg = newName "i_reg"
-            val init_regs = [ Mips.ADDI (addr_reg, place, "4")
-                            , Mips.MOVE (i_reg, "0")
-                            , Mips.ADDI (elem_reg, arr_reg, "4") ]
-
-            val loop_beg = newName "loop_beg"
-            val loop_end = newName "loop_end"
-            val tmp_reg = newName "tmp_reg"
-            val loop_header = [ Mips.LABEL (loop_beg)
-                              , Mips.SUB (tmp_reg, i_reg, size_reg)
-                              , Mips.BGEZ (tmp_reg, loop_end) ]
-
-            (* map is 'arr[i] = f(old_arr[i])'. *)
-            val loop_map0 =
-                case getElemSize elem_type of
-                    One => Mips.LB(res_reg, elem_reg, "0")
-                           :: applyFunArg(farg, [res_reg], vtable, res_reg, pos)
-                           @ [ Mips.ADDI(elem_reg, elem_reg, "1") ]
-                  | Four => Mips.LW(res_reg, elem_reg, "0")
-                            :: applyFunArg(farg, [res_reg], vtable, res_reg, pos)
-                            @ [ Mips.ADDI(elem_reg, elem_reg, "4") ]
-            val loop_map1 =
-                case getElemSize ret_type of
-                    One => [ Mips.SB (res_reg, addr_reg, "0") ]
-                  | Four => [ Mips.SW (res_reg, addr_reg, "0") ]
-
-            val loop_footer =
-                [ Mips.ADDI (addr_reg, addr_reg,
-                             makeConst (elemSizeToInt (getElemSize ret_type)))
-                , Mips.ADDI (i_reg, i_reg, "1")
-                , Mips.J loop_beg
-                , Mips.LABEL loop_end
-                ]
-        in arr_code
-           @ get_size
-           @ dynalloc (size_reg, place, ret_type)
-           @ init_regs
-           @ loop_header
-           @ loop_map0
-           @ loop_map1
-           @ loop_footer
-        end
   (* TODO: TASK 2: Add case for Filter.
 
      Start by allocating an array of the same size as the input array.  Then,
