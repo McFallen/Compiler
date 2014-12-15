@@ -85,7 +85,7 @@ and action_15 lexbuf = (
 and action_14 lexbuf = (
  Parser.DEQ    (getPos lexbuf) )
 and action_13 lexbuf = (
- Parser.NEGRO (getPos lexbuf) )
+ Parser.NEG (getPos lexbuf) )
 and action_12 lexbuf = (
  Parser.DIV (getPos lexbuf) )
 and action_11 lexbuf = (

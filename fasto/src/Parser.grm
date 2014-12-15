@@ -19,11 +19,13 @@ open Fasto.UnknownTypes
 %token <(int*int)> OP
 
 %nonassoc ifprec letprec
+%left AND 
+%left OR
+%nonassoc NOT
 %left DEQ LTH
-%left NOT
 %left PLUS MINUS
-
-%nonassoc TIMES DIV NEG
+%left TIMES DIV
+%nonassoc NEG
 
 %start Prog
 %type <Fasto.UnknownTypes.Prog> Prog

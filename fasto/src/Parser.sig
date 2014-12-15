@@ -75,7 +75,7 @@ datatype token =
   | LTH of t__26__
   | MAP of t__27__
   | MINUS of t__28__
-  | NEGRO of t__29__
+  | NEG of t__29__
   | NOT of t__30__
   | NUM of t__31__
   | OP of t__32__
