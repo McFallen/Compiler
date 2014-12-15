@@ -11,7 +11,7 @@ open Fasto.UnknownTypes
 %token <string*(int*int)> ID STRINGLIT
 %token <int*(int*int)> NUM
 %token <char*(int*int)> CHARLIT
-%token <bool*(int*int)> FALSE TRUE
+%token <bool*(int*int)> BOOLEAN
 %token <(int*int)> PLUS MINUS DEQ EQ LTH NEG NOT ARROW
 %token <(int*int)> TIMES DIV AND NOT OR LPAR RPAR LBRACKET RBRACKET LCURLY RCURLY
 %token <(int*int)> COMMA
@@ -72,8 +72,9 @@ BinOp :   PLUS          { (Lambda
                         }
 ;
 
-Exp :     NUM           { Constant (IntVal (#1 $1), #2 $1) }
-        | CHARLIT       { Constant (CharVal (#1 $1), #2 $1) }
+Exp :     NUM           { Constant ( IntVal (#1 $1), #2 $1) }
+        | CHARLIT       { Constant ( CharVal (#1 $1), #2 $1) }
+        | BOOLEAN       { Constant ( BoolVal (#1 $1), #2 $1) }
         | ID            { Var $1 }
         | STRINGLIT     { StringLit $1 }
         | LCURLY Exps RCURLY
@@ -120,8 +121,6 @@ Exp :     NUM           { Constant (IntVal (#1 $1), #2 $1) }
                         { Let (Dec (#1 $2, $4, $3), $6, $1) }
         | ID LBRACKET Exp RBRACKET
                         { Index (#1 $1, $3, (), $2) }
-        | TRUE          { Constant ( BoolVal (#1 $1), #2 $1) }
-        | FALSE         { Constant ( BoolVal (#1 $1), #2 $1) }
         | NOT Exp { Not ( $2, $1 ) }     
 ;
 

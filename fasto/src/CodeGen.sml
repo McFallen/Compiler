@@ -688,24 +688,31 @@ structure CodeGen = struct
     (* Scan(f, e, [a1, a2, ..., an]) = [e, f(e, a1), f(f(e, a1), a2), ...] *)
   | Scan (farg, acc_exp, arr_exp, elem_type, pos) =>
         let val in_size_reg = newName "in_size_reg" (* size of input array *)
-            val out_size_reg = newName "out_size_reg" (* worth?jegae *)
+            val out_size_reg = newName "out_size_reg" (* size of ouput array *)
             val acc_reg = newName "acc_reg" (* last computed value for output *)
             val i_reg = newName "i_reg" (* Iterator register *)
- 
-            val addr_reg = newName "addr_reg" (* address of element in output array *)
- 
+            val addr_reg = newName "addr_reg" (* address of element in output array *) 
             val arr_reg = newName "arr_reg"
+            val elem_reg = newName "elem_reg"
+
             val arr_code = compileExp arr_exp vtable arr_reg
- 
+            val acc_code = compileExp acc_exp vtable acc_reg
+            
+            val get_size = [ Mips.LW (in_size_reg, arr_reg, "0") (* Loads array-size into in_size_reg *)
+                           , Mips.ADDI(out_size_reg, in_size_reg, "0") (* Puts size into out_size_reg *)
+                           , Mips.LI(out_size_reg, "1") (* increment out_size_reg, since we want it to be one index bigger *)
+                           ] 
+
             (* Initiate registers.
                Put address of place into addr_reg, so we return proper addresses.
                Increment in_size_reg by 1 to determine out_size_reg, since output array is
                1 element longer. *)
-            val init_regs = [ Mips.ADDI (addr_reg, place, "4")
-                            , Mips.MOVE(i_reg, "0")
-                            , Mips.ADDI (out_size_reg, in_size_reg, "1")
-                              (* VI SKAL HAVE NOGET KODE DER PUTTER e I STARTEN AF OUTPUT
-                               * dynalloc gør det af sigselv *) ]
+            val init_regs = [ Mips.ADDI (addr_reg, place, "4") (* point to the next word *)
+                            , Mips.SW (addr_reg, acc_reg, "0") (* put the first element into the array*)
+                            , Mips.ADDI (addr_reg, addr_reg, "4") (* point to next word*)
+                            , Mips.MOVE(i_reg, "0") (* initialize iterator*)
+                            , Mips.ADDI (elem_reg, arr_reg, "4") (* Look at first element in input array *)
+                            ]
  
  
             val loop_beg = newName "loop_beg"
@@ -714,24 +721,24 @@ structure CodeGen = struct
  
             (* while i_reg < in_size_reg*)
             val loop_head =
-                [ Mips.LABEL(loop_beg)
-                , Mips.SUB(tmp_reg, i_reg, in_size_reg)
-                , Mips.BGEZ(tmp_reg, loop_end) ]
+                [ Mips.LABEL(loop_beg) 
+                , Mips.SUB(tmp_reg, i_reg, in_size_reg) (* make statement*)
+                , Mips.BGEZ(tmp_reg, loop_end) ] (* if statement is equal to zero, jump to end *)
  
             (* loads next value in input array into tmp_reg *)
-            val load_code =
+            val load_value =
                 case getElemSize elem_type of
-                    One =>  [ Mips.LB   (tmp_reg, arr_reg, "0")
+                    One =>  [ Mips.LB   (elem_reg, arr_reg, "0")
                             , Mips.ADDI (arr_reg, arr_reg, "1") ]
-                  | Four => [ Mips.LW   (tmp_reg, arr_reg, "0")
+                  | Four => [ Mips.LW   (elem_reg, arr_reg, "0")
                             , Mips.ADDI (arr_reg, arr_reg, "4") ]
                
             val apply_code =
-                applyFunArg(farg, [acc_reg, tmp_reg], vtable, acc_reg, pos)
+                applyFunArg(farg, [acc_reg, elem_reg], vtable, acc_reg, pos)
  
             (* save the current accumulated value to a register for later computations,
                and to memory for later output *)
-            val save_shit =
+            val save_value =
                 case getElemSize elem_type of
                     One => [ Mips.SB (acc_reg, addr_reg, "0")
                            , Mips.ADDI (addr_reg, addr_reg, "1")]
@@ -742,20 +749,21 @@ structure CodeGen = struct
  
             (* increments i_reg *)
             val loop_foot =
-                [ Mips.ADDI (addr_reg, addr_reg,
-                                         makeConst (elemSizeToInt (getElemSize elem_type)))
-                , Mips.ADDI(i_reg, i_reg, "1")
+                [ Mips.ADDI(i_reg, i_reg, "1")
                 , Mips.J loop_beg
                 , Mips.LABEL loop_end ]
            
-        in arr_code
+        in [Mips.LABEL "Det_her_er_starten"] 
+           @ arr_code
+           @ acc_code
            @ init_regs
            @ dynalloc (out_size_reg, place, elem_type)
            @ loop_head
-           @ load_code
+           @ load_value
            @ apply_code
-           @ save_shit
+           @ save_value
            @ loop_foot
+           @ [Mips.LABEL "Det_her_er_slutningen_SCAN"]
         end
   (* TODO: TASK 2: Add case for Filter.
 

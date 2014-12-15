@@ -2,15 +2,15 @@ local
 type t__1__ = (int*int)
 type t__2__ = (int*int)
 type t__3__ = (int*int)
-type t__4__ = (int*int)
-type t__5__ = char*(int*int)
-type t__6__ = (int*int)
+type t__4__ = bool*(int*int)
+type t__5__ = (int*int)
+type t__6__ = char*(int*int)
 type t__7__ = (int*int)
 type t__8__ = (int*int)
 type t__9__ = (int*int)
 type t__10__ = (int*int)
 type t__11__ = (int*int)
-type t__12__ = bool*(int*int)
+type t__12__ = (int*int)
 type t__13__ = (int*int)
 type t__14__ = (int*int)
 type t__15__ = (int*int)
@@ -43,22 +43,21 @@ type t__41__ = (int*int)
 type t__42__ = string*(int*int)
 type t__43__ = (int*int)
 type t__44__ = (int*int)
-type t__45__ = bool*(int*int)
-type t__46__ = (int*int)
+type t__45__ = (int*int)
 in
 datatype token =
     AND of t__1__
   | ARROW of t__2__
   | BOOL of t__3__
-  | CHAR of t__4__
-  | CHARLIT of t__5__
-  | COMMA of t__6__
-  | DEQ of t__7__
-  | DIV of t__8__
-  | ELSE of t__9__
-  | EOF of t__10__
-  | EQ of t__11__
-  | FALSE of t__12__
+  | BOOLEAN of t__4__
+  | CHAR of t__5__
+  | CHARLIT of t__6__
+  | COMMA of t__7__
+  | DEQ of t__8__
+  | DIV of t__9__
+  | ELSE of t__10__
+  | EOF of t__11__
+  | EQ of t__12__
   | FILTER of t__13__
   | FN of t__14__
   | FUN of t__15__
@@ -91,8 +90,7 @@ datatype token =
   | STRINGLIT of t__42__
   | THEN of t__43__
   | TIMES of t__44__
-  | TRUE of t__45__
-  | WRITE of t__46__
+  | WRITE of t__45__
 end;
 
 val Prog :
