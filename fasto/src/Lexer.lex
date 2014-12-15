@@ -89,7 +89,7 @@ rule Token = parse
   | `-`                 { Parser.MINUS  (getPos lexbuf) }
   | `*`                 { Parser.TIMES (getPos lexbuf) }
   | `/`                 { Parser.DIV (getPos lexbuf) }
-  | `~`                 { Parser.NEGRO (getPos lexbuf) }
+  | `~`                 { Parser.NEG (getPos lexbuf) }
   | "=="                { Parser.DEQ    (getPos lexbuf) }
   | "=>"                { Parser.ARROW (getPos lexbuf) }
   | `=`                 { Parser.EQ     (getPos lexbuf) }

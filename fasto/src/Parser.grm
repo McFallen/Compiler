@@ -81,7 +81,7 @@ Exp :     NUM           { Constant (IntVal (#1 $1), #2 $1) }
                         { Times($1, $3, $2) }
         | Exp DIV Exp  
                         { Divide($1, $3, $2) }
-        | NEGRO Exp  
+        | NEG Exp  
                         { Negate($2, $1) }
         | Exp AND Exp { And($1, $3, $2) }
         | Exp OR Exp 
