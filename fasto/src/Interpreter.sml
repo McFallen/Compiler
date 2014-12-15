@@ -372,10 +372,10 @@ fun evalExp ( Constant (v,_), vtab, ftab ) = v
                            SOME n    => IntVal n
                          | otherwise => raise Error("read(int) Failed! ", p)
                     end
-           | Bool => let val v = Bool.fromString(str) (* For use of 0=false and rest =true -> Int.fromString(str) *)
+           | Bool => let val v = Int.fromString(str) (* For use of 0=false and rest =true -> Bool.fromString(str) *)
                      in case v of
                             SOME b    => if( b = false ) then BoolVal false else BoolVal true
-                          | otherwise => raise Error("read(bool) Failed; false==False, true==True! ", p)
+                          | otherwise => raise Error("read(bool) Failed; 0==false, 1==true! ", p)
                      end
            | Char => let val v = Char.fromCString(str)
                      in case v of
@@ -421,12 +421,11 @@ fun evalExp ( Constant (v,_), vtab, ftab ) = v
         in  evalBinopNum(op div, res1, res2, pos)
         end
 
-  (*| evalExp ( Or(e1, e2, pos), vtab, ftab ) =
+  | evalExp ( Or(e1, e2, pos), vtab, ftab ) =
         let val res1 = evalExp(e1, vtab, ftab)
             val res2 = evalExp(e2, vtab, ftab)
         in evalRelop( (fn (x,y) => x orelse y) , res1, res2, pos)
         end
-*)
 
 (* Interpreter for Fasto function calls:
     1. f is the function declaration.
