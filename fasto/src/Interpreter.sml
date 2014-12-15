@@ -374,7 +374,7 @@ fun evalExp ( Constant (v,_), vtab, ftab ) = v
                     end
            | Bool => let val v = Int.fromString(str) (* For use of 0=false and rest =true -> Bool.fromString(str) *)
                      in case v of
-                            SOME b    => if( b = false ) then BoolVal false else BoolVal true
+                            SOME b    => if( b = 0 ) then BoolVal false else BoolVal true
                           | otherwise => raise Error("read(bool) Failed; 0==false, 1==true! ", p)
                      end
            | Char => let val v = Char.fromCString(str)
