@@ -3,5 +3,5 @@ fun bool great(int n) = 5 < n
 fun int writeInt(int n) = write(n)
 
 fun [int] main() =
-  let a = filter(great, {~4, 9, 8, 2, 1, 10}) in
+  let a = filter(great, {6, 9, 8, 2}) in
   map(writeInt, a)

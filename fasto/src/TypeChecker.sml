@@ -326,26 +326,24 @@ and checkExp ftab vtab (exp : In.Exp)
   (* TODO: TASK 2: Add case for Filter.  Quite similar to map, except that the
      return type is the same as the input array type, and the function must
      return bool.  *)
-(*
     | In.Filter (f, arr_exp, _, pos)
-      => let val (arr_type, arr_dec) = checkExp ftab vtab arr_exp
+      => let val (arr_type, arr_exp_dec) = checkExp ftab vtab arr_exp
              
               val elem_type =
                 case arr_type of
                   Array t => t
                 | other => raise Error ("Filter: argument is not an array", pos)
 
-              val (f', f_arg_type) =
+              val (f', f_res_type, f_arg_type) =
                 case checkFunArg (f, vtab, ftab, pos) of
-                    (f', res) => (f', res)
-                  | (_,  res) =>
+                    (f', Bool, [a1]) => (f', Bool, a1)
+                  | (_,  res, args) =>
                    raise Error ("Filter: incompatible function type of "
-                                ^ In.ppFunArg 0 f ^ ":" ^ showFunType (res), pos)
+                                ^ In.ppFunArg 0 f ^ ":" ^ showFunType (args, res), pos)
                     
-              in (Array f_res_type,
-                      Out.Filter (f', arr_exp_dec, elem_type, f_res_type, pos))
+              in (arr_type,
+                      Out.Filter (f', arr_exp_dec, f_res_type, pos))
              end
-*)
   (* TODO TASK 5: add case for ArrCompr.
 
    Remember that the generating expressions must be arrays, and the
