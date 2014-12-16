@@ -781,7 +781,7 @@ structure CodeGen = struct
      once you know how many elements that are actually left.  Do not worry
      about wasted space. *)
     (* filter(f(), acc, [a1,a2]) = [f(acc, a1), f(acc, a2)] *)
-    | Filter (farg, arr_exp, ret_type, pos) =>
+    | Filter (farg, arr_exp, elem_type, pos) =>
         let val size_reg = newName "size_reg" (* size of input/output array *)
             val arr_reg  = newName "arr_reg" (* address of input array *)
             val elem_reg = newName "elem_reg" (* address of single element *)
@@ -809,7 +809,7 @@ structure CodeGen = struct
 
             (* map is 'arr[i] = f(old_arr[i])'. *)
             val loop_load =
-                case getElemSize ret_type of
+                case getElemSize elem_type of
                     One  => Mips.LB(val_reg, elem_reg, "0")
                               :: applyFunArg(farg, [val_reg], vtable, res_reg, pos)
                             @ [ Mips.ADDI(elem_reg, elem_reg, "1") ]
@@ -821,13 +821,13 @@ structure CodeGen = struct
                             , Mips.ADDI (j_reg, j_reg, "1") ]
 
             val loop_save =
-                case getElemSize ret_type of
+                case getElemSize elem_type of
                     One => [ Mips.SB (val_reg, addr_reg, "0")]
                   | Four => [ Mips.SW (val_reg, addr_reg, "0") ]
 
             val loop_footer =
                 [ Mips.ADDI (addr_reg, addr_reg,
-                             makeConst (elemSizeToInt (getElemSize ret_type)))
+                             makeConst (elemSizeToInt (getElemSize elem_type)))
                 , Mips.J loop_beg
                 , Mips.LABEL loop_end
                 , Mips.SW (j_reg, place, "0")
@@ -837,7 +837,7 @@ structure CodeGen = struct
            @[Mips.LABEL "measuring"] 
            @ get_size (* gets the size of the input array *)
            @[Mips.LABEL "allocating_da_mem"] 
-           @ dynalloc (size_reg, place, ret_type) (* return place, which is an address where the ouput array is going to be *)
+           @ dynalloc (size_reg, place, elem_type) (* return place, which is an address where the ouput array is going to be *)
            @[Mips.LABEL "initializing"] 
            @ init_regs
            @[Mips.LABEL "loopin"] 
