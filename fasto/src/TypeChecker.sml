@@ -342,7 +342,7 @@ and checkExp ftab vtab (exp : In.Exp)
                                 ^ In.ppFunArg 0 f ^ ":" ^ showFunType (args, res), pos)
                     
               in (arr_type,
-                      Out.Filter (f', arr_exp_dec, f_res_type, pos))
+                      Out.Filter (f', arr_exp_dec, elem_type, pos))
              end
   (* TODO TASK 5: add case for ArrCompr.
 

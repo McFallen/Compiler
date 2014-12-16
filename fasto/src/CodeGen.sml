@@ -830,7 +830,7 @@ structure CodeGen = struct
                              makeConst (elemSizeToInt (getElemSize ret_type)))
                 , Mips.J loop_beg
                 , Mips.LABEL loop_end
-                , Mips.SW (size_reg, place, "0")
+                , Mips.SW (j_reg, place, "0")
                 ]
         in [Mips.LABEL "array_kode"] 
            @ arr_code (* make arr_reg point to input array*)
