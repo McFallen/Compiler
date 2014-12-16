@@ -699,8 +699,7 @@ structure CodeGen = struct
             val acc_code = compileExp acc_exp vtable acc_reg
             
             val get_size = [ Mips.LW (in_size_reg, arr_reg, "0") (* Loads array-size into in_size_reg *)
-                           , Mips.ADDI(out_size_reg, in_size_reg, "0") (* Puts size into out_size_reg *)
-                           , Mips.LI(out_size_reg, "1") (* increment out_size_reg, since we want it to be one index bigger *)
+                           , Mips.ADDI(out_size_reg, in_size_reg, "1") (* Puts size into out_size_reg *)
                            ] 
 
             (* Initiate registers.
@@ -708,10 +707,10 @@ structure CodeGen = struct
                Increment in_size_reg by 1 to determine out_size_reg, since output array is
                1 element longer. *)
             val init_regs = [ Mips.ADDI (addr_reg, place, "4") (* point to the next word *)
-                            , Mips.SW (addr_reg, acc_reg, "0") (* put the first element into the array*)
+                            , Mips.SW (acc_reg, addr_reg, "0")
                             , Mips.ADDI (addr_reg, addr_reg, "4") (* point to next word*)
                             , Mips.MOVE(i_reg, "0") (* initialize iterator*)
-                            , Mips.ADDI (elem_reg, arr_reg, "4") (* Look at first element in input array *)
+                            , Mips.ADDI (arr_reg, arr_reg, "4") (* Look at first element in input array *)
                             ]
  
  
@@ -722,9 +721,8 @@ structure CodeGen = struct
             (* while i_reg < in_size_reg*)
             val loop_head =
                 [ Mips.LABEL(loop_beg) 
-                , Mips.SUB(tmp_reg, i_reg, in_size_reg) (* make statement*)
+                , Mips.SUB(tmp_reg, i_reg, out_size_reg) (* make statement*)
                 , Mips.BGEZ(tmp_reg, loop_end) ] (* if statement is equal to zero, jump to end *)
- 
             (* loads next value in input array into tmp_reg *)
             val load_value =
                 case getElemSize elem_type of
@@ -755,13 +753,23 @@ structure CodeGen = struct
            
         in [Mips.LABEL "Det_her_er_starten"] 
            @ arr_code
+           @[Mips.LABEL "array_kode"] 
            @ acc_code
-           @ init_regs
+           @[Mips.LABEL "akku_kode"] 
+           @ get_size
+           @[Mips.LABEL "Stoerrelsen_på_dyret"] 
            @ dynalloc (out_size_reg, place, elem_type)
+           @[Mips.LABEL "init_regz"] 
+           @ init_regs
+           @[Mips.LABEL "starten_af_loopet"] 
            @ loop_head
+           @[Mips.LABEL "midten_af_loopet"] 
            @ load_value
+           @[Mips.LABEL "mere_midte"] 
            @ apply_code
+           @[Mips.LABEL "gem_den_akku"] 
            @ save_value
+           @[Mips.LABEL "foden_af_loopet"] 
            @ loop_foot
            @ [Mips.LABEL "Det_her_er_slutningen_SCAN"]
         end
