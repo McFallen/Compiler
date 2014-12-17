@@ -37,7 +37,7 @@
        | "bool"         => Parser.BOOL pos
        | "char"         => Parser.CHAR pos
        | "fun"          => Parser.FUN pos
-       | "fn"           => Parser.LAMBDA pos
+       | "fn"           => Parser.FN pos
 (* specials: *)
        | "not"          => Parser.NOT pos
        | "iota"         => Parser.IOTA pos

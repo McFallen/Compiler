@@ -158,7 +158,7 @@ structure CodeGen = struct
     end
 
   (* Compile 'e' under bindings 'vtable', putting the result in its 'place'. *)
-  fun compileExp e vtable place =
+  fun compileExp le place =
     case e of
       Constant (IntVal n, pos) =>
         if n < 32768 then
@@ -506,7 +506,7 @@ structure CodeGen = struct
                               ]
         in n_code
            @ checksize
-           @ elem_code
+           @ elem_code 
            @ dynalloc (size_reg, place, tp)
            @ init_regs
            @ loop_header
@@ -849,9 +849,6 @@ structure CodeGen = struct
            @ loop_footer
         end
 
-
-
-
   (* TODO TASK 5: add case for ArrCompr.
 
    A good solution is to transform the array comprehension to an
@@ -867,6 +864,15 @@ structure CodeGen = struct
         lambda, then finally move the result of the body to the
         'place' register.
       *)
+  | applyFunArg (Lambda(ret_type, params, body', funpos), args, vtable, place, pos) : Mips.Prog = 
+      let 
+        fun bindVars ([], [], vtable) = vtable
+          | bindVars([], args, vtable) = raise Error("stop det pjat")
+          | bindVars(params, [], vtable) = raise Errors("stop det pjat stadigvæk")
+          | bindVars((name, paramtype)::params, arg::args, vtable) = SymTab.bind name arg (bindVars(params, args, vtable))
+      in
+        newVtable = bindVars(params, args)
+      end
 
   (* compile condition *)
   and compileCond c vtable tlab flab =

@@ -28,8 +28,8 @@ type t__26__ = (int*int)
 type t__27__ = (int*int)
 type t__28__ = (int*int)
 type t__29__ = (int*int)
-type t__30__ = (int*int)
-type t__31__ = int*(int*int)
+type t__30__ = int*(int*int)
+type t__31__ = (int*int)
 type t__32__ = (int*int)
 type t__33__ = (int*int)
 type t__34__ = (int*int)
@@ -39,11 +39,10 @@ type t__37__ = (int*int)
 type t__38__ = (int*int)
 type t__39__ = (int*int)
 type t__40__ = (int*int)
-type t__41__ = (int*int)
-type t__42__ = string*(int*int)
+type t__41__ = string*(int*int)
+type t__42__ = (int*int)
 type t__43__ = (int*int)
 type t__44__ = (int*int)
-type t__45__ = (int*int)
 in
 datatype token =
     AND of t__1__
@@ -66,31 +65,30 @@ datatype token =
   | IN of t__18__
   | INT of t__19__
   | IOTA of t__20__
-  | LAMBDA of t__21__
-  | LBRACKET of t__22__
-  | LCURLY of t__23__
-  | LET of t__24__
-  | LPAR of t__25__
-  | LTH of t__26__
-  | MAP of t__27__
-  | MINUS of t__28__
-  | NEG of t__29__
-  | NOT of t__30__
-  | NUM of t__31__
-  | OP of t__32__
-  | OR of t__33__
-  | PLUS of t__34__
-  | RBRACKET of t__35__
-  | RCURLY of t__36__
-  | READ of t__37__
-  | REDUCE of t__38__
-  | REPLICATE of t__39__
-  | RPAR of t__40__
-  | SCAN of t__41__
-  | STRINGLIT of t__42__
-  | THEN of t__43__
-  | TIMES of t__44__
-  | WRITE of t__45__
+  | LBRACKET of t__21__
+  | LCURLY of t__22__
+  | LET of t__23__
+  | LPAR of t__24__
+  | LTH of t__25__
+  | MAP of t__26__
+  | MINUS of t__27__
+  | NEG of t__28__
+  | NOT of t__29__
+  | NUM of t__30__
+  | OP of t__31__
+  | OR of t__32__
+  | PLUS of t__33__
+  | RBRACKET of t__34__
+  | RCURLY of t__35__
+  | READ of t__36__
+  | REDUCE of t__37__
+  | REPLICATE of t__38__
+  | RPAR of t__39__
+  | SCAN of t__40__
+  | STRINGLIT of t__41__
+  | THEN of t__42__
+  | TIMES of t__43__
+  | WRITE of t__44__
 end;
 
 val Prog :
