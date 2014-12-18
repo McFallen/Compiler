@@ -659,11 +659,11 @@ structure CodeGen = struct
             val endLabel = newName "endLabel"
             val code1 = compileCond e1 vtable trueLabel falseLabel
             val code2 = compileCond e2 vtable trueLabel endLabel
-        in  [Mips.ADD(place, "0", "0")] @ 
+        in  [Mips.LI(place, "0")] @ 
               code1 @ 
               [Mips.LABEL falseLabel] @ 
               code2 @ 
-              [Mips.LABEL trueLabel, Mips.ADD(place, "0", "1"), Mips.LABEL endLabel]
+              [Mips.LABEL trueLabel, Mips.LI(place, "1"), Mips.LABEL endLabel]
         end
 
     | And (e1, e2, pos) =>
