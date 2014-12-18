@@ -420,15 +420,40 @@ fun evalExp ( Constant (v,_), vtab, ftab ) = v
             val res2   = evalExp(e2, vtab, ftab)
         in  evalBinopNum(op div, res1, res2, pos)
         end
- (*
+
+  | evalExp ( Negate(e1, pos), vtab, ftab ) =
+        let val res1 = evalExp(e1, vtab, ftab)
+            val res2 = evalExp(Constant(IntVal 0, pos), vtab, ftab)
+        in  evalBinopNum(op +, res1, res2, pos)
+        end
+
+  | evalExp ( Not(e1, pos), vtab, ftab ) =
+        let val res1 = evalExp(e1, vtab, ftab)
+        in  case res1 of
+              BoolVal true => BoolVal false
+            | BoolVal false => BoolVal true
+        end
+
+  | evalExp ( And(e1, e2, pos), vtab, ftab ) =
+        let val res1 = evalExp(e1, vtab, ftab)
+            val res2 = evalExp(e2, vtab, ftab)
+        in  case res1 of
+              BoolVal true => case res2 of
+                                BoolVal true => BoolVal true
+                              | BoolVal false => BoolVal false
+            | BoolVal false => BoolVal false
+        end
+
   | evalExp ( Or(e1, e2, pos), vtab, ftab ) =
         let val res1 = evalExp(e1, vtab, ftab)
             val res2 = evalExp(e2, vtab, ftab)
-        in if res1 
-           then res1
-           else res2
+        in  case res1 of
+              BoolVal true => BoolVal true
+            | BoolVal false => case res2 of
+                                BoolVal true => BoolVal true
+                              | BoolVal false => BoolVal false 
         end
-*)
+ 
 (* Interpreter for Fasto function calls:
     1. f is the function declaration.
     2. args is a list of (already interpreted) arguments.
