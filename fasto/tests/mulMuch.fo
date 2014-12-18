@@ -1,3 +1,9 @@
 fun int writeInt(int n) = write(n)
 
-fun int main() = writeInt(read(int) + read(int) * read(int))
+fun int main() = 
+  let bab = 5 in
+  let aba = bab
+  in
+      writeInt(aba + bab * 0)
+  
+ 

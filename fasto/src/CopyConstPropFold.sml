@@ -106,6 +106,7 @@ fun copyConstPropFoldExp vtable e =
               case e' of
                 (Var (vname, p))     => (SymTab.bind name (VarProp(vname)) vtable)
               | (Constant (vval, p)) => (SymTab.bind name (ConstProp(vval)) vtable)
+              | _ => vtable
           in
            Let (Dec (name, e', decpos), copyConstPropFoldExp vtable' body, pos)
           end
@@ -155,7 +156,85 @@ fun copyConstPropFoldExp vtable e =
   (* TODO TASKS 1/4: add cases for Times, Divide, Negate, Not, And, Or.  Look at
   how Plus and Minus are implemented for inspiration.
    *)
+      | Times  (e1, e2, pos) =>
+        let val e1' = copyConstPropFoldExp vtable e1
+            val e2' = copyConstPropFoldExp vtable e2
+        in case (e1', e2') of
+               (Constant (IntVal x, _), Constant (IntVal y, _)) =>
+               Constant (IntVal (x*y), pos)
+             | (Constant (IntVal 0, _), _) =>
+               e1'
+             | (_, Constant (IntVal 0, _)) =>
+               e2'
+             | (Constant (IntVal 1, _), _) =>
+               e2'
+             | (_, Constant (IntVal 1, _)) =>
+               e1'
+             | _ =>
+               Times (e1', e2', pos)
+        end
 
+      | Divide (e1, e2, pos) =>
+        let val e1' = copyConstPropFoldExp vtable e1
+            val e2' = copyConstPropFoldExp vtable e2
+        in case (e1', e2') of
+               (Constant (IntVal x, _), Constant (IntVal y, _)) =>
+               Constant (IntVal (Int.quot (x, y)), pos)
+             | (Constant (IntVal 0, _), _) =>
+               e1'
+             | (_, Constant (IntVal 1, _)) =>
+               e1'
+             | _ =>
+               Divide (e1', e2', pos)
+        end
+
+      | Negate (e1, pos) =>
+        let val e1' = copyConstPropFoldExp vtable e1
+        in case e1' of
+               (Constant (IntVal 0, _)) =>
+               e1'
+             | _ =>
+               Negate (e1', pos)
+        end
+ 
+      | Or     (e1, e2, pos) =>
+        let val e1' = copyConstPropFoldExp vtable e1
+            val e2' = copyConstPropFoldExp vtable e2
+        in case (e1', e2') of
+               (Constant (BoolVal x, _), Constant (BoolVal y, _)) =>
+               Constant (BoolVal (x orelse y), pos)
+             | (Constant (BoolVal true, _), _) =>
+               e1'
+             | (_, Constant (BoolVal true, _)) =>
+               e2'
+             | _ =>
+               Or (e1', e2', pos)
+        end
+
+      | And    (e1, e2, pos) =>
+        let val e1' = copyConstPropFoldExp vtable e1
+            val e2' = copyConstPropFoldExp vtable e2
+        in case (e1', e2') of
+               (Constant (BoolVal x, _), Constant (BoolVal y, _)) =>
+               Constant (BoolVal (x andalso y), pos)
+             | (Constant (BoolVal false, _), _) =>
+               e1'
+             | (_, Constant (BoolVal false, _)) =>
+               e2'               
+             | _ =>
+               And (e1', e2', pos)
+        end
+
+      | Not    (e1, pos) =>
+        let val e1' = copyConstPropFoldExp vtable e1
+        in case (e1') of
+               (Constant (BoolVal false, _)) =>
+               Constant (BoolVal true, pos)
+             | ( Constant (BoolVal true, _)) =>
+               Constant (BoolVal false, pos)               
+             | _ => 
+               Not (e1', pos)
+        end
 and copyConstPropFoldFunArg vtable (FunName fname) =
     FunName fname
   | copyConstPropFoldFunArg vtable (Lambda (rettype, params, body, pos)) =

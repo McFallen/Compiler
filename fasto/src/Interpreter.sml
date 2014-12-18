@@ -432,26 +432,31 @@ fun evalExp ( Constant (v,_), vtab, ftab ) = v
         in  case res1 of
               BoolVal true => BoolVal false
             | BoolVal false => BoolVal true
+            | _ => raise Error("Input is not of type bool", pos)
         end
 
   | evalExp ( And(e1, e2, pos), vtab, ftab ) =
         let val res1 = evalExp(e1, vtab, ftab)
             val res2 = evalExp(e2, vtab, ftab)
         in  case res1 of
-              BoolVal true => case res2 of
-                                BoolVal true => BoolVal true
-                              | BoolVal false => BoolVal false
-            | BoolVal false => BoolVal false
+              BoolVal false => res1
+            | BoolVal true => (case res2 of
+                                BoolVal _ => res2
+                                | _ => raise Error("Second argument is not of type bool", pos))
+            | _ => raise Error("First argument is not of type bool", pos)
+      
         end
 
   | evalExp ( Or(e1, e2, pos), vtab, ftab ) =
         let val res1 = evalExp(e1, vtab, ftab)
             val res2 = evalExp(e2, vtab, ftab)
         in  case res1 of
-              BoolVal true => BoolVal true
-            | BoolVal false => case res2 of
-                                BoolVal true => BoolVal true
-                              | BoolVal false => BoolVal false 
+              BoolVal true => res1
+            | BoolVal false => (case res2 of
+                                BoolVal _ => res2
+                                | _ => raise Error("Second argument is not of type bool", pos))
+            | _ => raise Error("First argument is not of type bool", pos)
+      
         end
  
 (* Interpreter for Fasto function calls:
