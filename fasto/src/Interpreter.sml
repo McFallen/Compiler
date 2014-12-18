@@ -477,7 +477,6 @@ and evalFunArg (FunName fid, vtab, ftab, callpos) =
     in
       case fexp of
         NONE   => raise Error("Function "^fid^" is not in SymTab!", callpos)
-        (* (fn aargs => callFunWithVtable(f, aargs, vtab, ftab, callpos), getFunRTP f *)
       | SOME f => (fn aargs => callFun(f, aargs, ftab, callpos), getFunRTP f)
     end
    (* TODO TASK 3:
@@ -485,7 +484,12 @@ and evalFunArg (FunName fid, vtab, ftab, callpos) =
    appropriate FunDec from the lambda and passing it to
    callFunWithVtable.
     *)
-
+  | evalFunArg (Lambda(ret_type, params, exp, pos), vtab, ftab, callpos) =
+    let
+      val fundec = FunDec ("Lambda", ret_type, params, exp, pos)
+    in
+     (fn aargs => callFunWithVtable(fundec, aargs, vtab, ftab, callpos), ret_type) 
+    end
 (* Interpreter for Fasto programs:
     1. builds the function symbol table,
     2. interprets the body of "main", and

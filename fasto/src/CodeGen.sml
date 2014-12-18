@@ -158,7 +158,7 @@ structure CodeGen = struct
     end
 
   (* Compile 'e' under bindings 'vtable', putting the result in its 'place'. *)
-  fun compileExp le place =
+  fun compileExp e vtable place =
     case e of
       Constant (IntVal n, pos) =>
         if n < 32768 then
@@ -867,11 +867,13 @@ structure CodeGen = struct
   | applyFunArg (Lambda(ret_type, params, body', funpos), args, vtable, place, pos) : Mips.Prog = 
       let 
         fun bindVars ([], [], vtable) = vtable
-          | bindVars([], args, vtable) = raise Error("stop det pjat")
-          | bindVars(params, [], vtable) = raise Errors("stop det pjat stadigvæk")
-          | bindVars((name, paramtype)::params, arg::args, vtable) = SymTab.bind name arg (bindVars(params, args, vtable))
+          | bindVars([], args, vtable) = raise Error("stop det pjat", pos)
+          | bindVars(params, [], vtable) = raise Error("stop det pjat stadigvæk", pos)
+          | bindVars(Param (name, paramtype)::params, arg::args, vtable) = SymTab.bind name arg (bindVars(params, args, vtable))
+      val newVtable = bindVars(params, args, vtable)
+      val code1 = compileExp body' newVtable place
       in
-        newVtable = bindVars(params, args)
+        code1
       end
 
   (* compile condition *)
