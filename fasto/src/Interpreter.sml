@@ -372,7 +372,7 @@ fun evalExp ( Constant (v,_), vtab, ftab ) = v
                            SOME n    => IntVal n
                          | otherwise => raise Error("read(int) Failed! ", p)
                     end
-           | Bool => let val v = Int.fromString(str) (* For use of 0=false and rest =true -> Bool.fromString(str) *)
+           | Bool => let val v = Int.fromString(str) (* Bool.fromString(str) *)
                      in case v of
                             SOME b    => if( b = 0 ) then BoolVal false else BoolVal true
                           | otherwise => raise Error("read(bool) Failed; 0==false, 1==true! ", p)

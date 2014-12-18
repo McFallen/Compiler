@@ -20,13 +20,19 @@ fun copyConstPropFoldExp vtable e =
       | ArrayLit (es, t, pos) =>
         ArrayLit (map (copyConstPropFoldExp vtable) es, t, pos)
       | Var (name, pos) =>
-
         (* TODO TASK 4: This case currently does nothing.
-
+        
          You must perform a lookup in the symbol table and if you find
          a Propagatee, return either a new Var or Constant node. *)
+        let
+          val value = SymTab.lookup name vtable
+        in
+          case value of
+            SOME (VarProp v)   => copyConstPropFoldExp vtable (Var(v, pos))
+          | SOME (ConstProp v) => copyConstPropFoldExp vtable (Constant(v, pos))
+          | NONE               => Var(name, pos)
+        end
 
-        Var (name, pos)
       | Plus (e1, e2, pos) =>
         let val e1' = copyConstPropFoldExp vtable e1
             val e2' = copyConstPropFoldExp vtable e2
@@ -45,7 +51,7 @@ fun copyConstPropFoldExp vtable e =
             val e2' = copyConstPropFoldExp vtable e2
         in case (e1', e2') of
                (Constant (IntVal x, _), Constant (IntVal y, _)) =>
-               Constant (IntVal (x+y), pos)
+               Constant (IntVal (x-y), pos)
              | (_, Constant (IntVal 0, _)) =>
                e1'
              | _ =>
@@ -94,11 +100,17 @@ fun copyConstPropFoldExp vtable e =
          insert the appropriate Propagatee value in vtable. *)
 
         let val e' = copyConstPropFoldExp vtable e
-            val vtable' = vtable
-        in Let (Dec (name, e', decpos),
-                copyConstPropFoldExp vtable' body,
-                pos)
+        in
+          let
+            val vtable' = 
+              case e' of
+                (Var (vname, p))     => (SymTab.bind name (VarProp(vname)) vtable)
+              | (Constant (vval, p)) => (SymTab.bind name (ConstProp(vval)) vtable)
+          in
+           Let (Dec (name, e', decpos), copyConstPropFoldExp vtable' body, pos)
+          end
         end
+      
       | Index (name, e, t, pos) =>
         let val e' = copyConstPropFoldExp vtable e
         in (* We can only copy-propagate variables for indexing. *)
