@@ -1,0 +1,8 @@
+fun int writeInt(int x) = write(x)
+
+fun [int] writeIntArr([int] x) = map(writeInt, x)
+
+fun int main() =
+   let N = read(int) in
+   let z = iota(N)   in
+   writeInt(reduce(fn int (int x, int y) => x + y, 2, z)) 

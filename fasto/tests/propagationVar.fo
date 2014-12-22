@@ -1,0 +1,8 @@
+fun int main() = 
+  let a = read(int) in
+  let b = a in
+  let c = b 
+  in
+      write(b + c * 0)
+  
+ 
