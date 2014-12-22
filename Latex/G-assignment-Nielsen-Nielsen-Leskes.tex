@@ -177,7 +177,93 @@
 
 	All three tests perform as expected.
 \subsection{Scan}
+To implement \verb"scan", we wanted to reuse code from map and reduce, by combining the iterator from map and the accumulator from reduce in the code-generator.\\
+In the typechecker, we pretty much reused the whole thing from reduce, adding that it should return an array of the return-type of the given function argument.\\\\
+Below is the changed snippet for type-checking for \verb"scan":
+\begin{lstlisting}
+...
+              then (Array elem_type,
+                       Out.Scan (f', n_dec, arr_dec, elem_type, pos))
+...
+\end{lstlisting}
 
+The idea to implement this, was to accumulate the values using the given function into a placeholder and put that into the return-array as the function progress. Next thing was how to get the initial value into the first index of the return-array, which we found intuitively had to be done before the whole loop-process had begun.\\
+The initializing code ended up like this:
+\begin{lstlisting}
+...
+val init_regs = [ Mips.ADDI (addr_reg, place, "4") (* point to the next word *)
+                , Mips.SW (acc_reg, addr_reg, "0")
+                , Mips.ADDI (addr_reg, addr_reg, "4") (* point to next word*)
+                , Mips.MOVE(i_reg, "0") (* initialize iterator*)
+                , Mips.ADDI (arr_reg, arr_reg, "4") (* Look at first element in input array *)
+                            ]
+...
+\end{lstlisting}
+
+For the looping itself, we split it into 5 parts, for the sole reason we found it easier to debug this way.\\
+A header, that would check if the condition is satisfied:\\
+\begin{lstlisting}
+...
+            val loop_head =
+                [ Mips.LABEL(loop_beg) 
+                , Mips.SUB(tmp_reg, i_reg, out_size_reg) (* make statement*)
+                , Mips.BGEZ(tmp_reg, loop_end) ] (* if statement is equal to zero, jump to end *)
+...
+\end{lstlisting}	
+
+An upperbody, that loads the value of the next element in the input array to be evaluated:\\
+\begin{lstlisting}
+...
+val load_value =
+  case getElemSize elem_type of
+    One =>  [ Mips.LB   (elem_reg, arr_reg, "0")
+            , Mips.ADDI (arr_reg, arr_reg, "1") ]
+  | Four => [ Mips.LW   (elem_reg, arr_reg, "0")
+            , Mips.ADDI (arr_reg, arr_reg, "4") ]
+...
+\end{lstlisting}
+
+Next is where the magic happens, the application of the function on the accumulator/placeholder along with the newly loaded element. This is, as mentioned, put into the placeholder for next iteration:\\
+\begin{lstlisting}
+...
+val apply_code =
+    applyFunArg(farg, [acc_reg, elem_reg], vtable, acc_reg, pos)
+...
+\end{lstlisting}
+
+Afterwards we want to save this into the new array and count up the address register for next iteration.
+\begin{lstlisting}
+...
+val save_value =
+  case getElemSize elem_type of
+    One => [ Mips.SB (acc_reg, addr_reg, "0")
+           , Mips.ADDI (addr_reg, addr_reg, "1")] 
+ | Four => [ Mips.SW (acc_reg, addr_reg, "0") 
+           , Mips.ADDI (addr_reg, addr_reg, "4")]
+...
+\end{lstlisting}
+
+Last, but not least we increment the iterator and jump to the header for the next iteration:\\
+\begin{lstlisting}
+...
+val loop_foot = [ Mips.ADDI(i_reg, i_reg, "1")
+                , Mips.J loop_beg
+                , Mips.LABEL loop_end ]
+\end{lstlisting}
+
+When testing this, we found it does not work properly with bools. A simple test as this:
+\begin{lstlisting}
+fun bool and(bool a, bool b) = a && b
+fun bool or(bool a, bool b) = a || b
+
+fun bool writeBool(bool n) = write(n)
+
+fun [bool] main() =
+  let a = {true, true, true, true, true, true, true, true} in
+  let b = scan(or, true, a) in
+  map(writeBool, b)
+\end{lstlisting}
+ Yields the output \verb"TrueFalseFalseFalseTrue...True" depending how big you make the array with true, but the 2nd to 4th always stays false. We believe it might have something to do in our code-generator
 \subsubsection{Testing}
 
 \section{$\lambda$-expressions in soacs}

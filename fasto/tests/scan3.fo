@@ -4,6 +4,6 @@ fun bool or(bool a, bool b) = a || b
 fun bool writeBool(bool n) = write(n)
 
 fun [bool] main() =
-  let a = {true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true} in
+  let a = {true, true, true, true} in
   let b = scan(or, true, a) in
   map(writeBool, b)
