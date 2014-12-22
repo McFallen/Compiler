@@ -1,0 +1,6 @@
+fun bool writeBool(bool s) = write(s)
+
+fun [bool] main() =
+  let a = {true, false, false, true} in
+  let b = filter(fn bool (bool x) => not x, a) in
+  map(writeBool, b)

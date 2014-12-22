@@ -1,3 +1,0 @@
-fun bool main() =
-	let n = read(bool) in
-		write(n)

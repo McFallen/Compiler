@@ -1,3 +1,0 @@
-// A simple negative test
-
-fun int main(int t) = t
