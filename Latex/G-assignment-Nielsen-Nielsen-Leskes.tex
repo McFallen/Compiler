@@ -123,6 +123,20 @@
     
 For boolean literals we've added for "true" and "false"
  
+In our associativity we have the following code:
+
+\begin{lstlisting}
+21  %nonassoc ifprec letprec
+22  %left DEQ LTH
+23  %left OR 
+24  %left AND
+25  %nonassoc NOT
+26  %left PLUS MINUS
+27  %left TIMES DIV
+28  %nonassoc NEG
+\end{lstlisting}
+Because of this hopefully we are getting the right bindings in our expressions. In the associations we made the \%prec ifprec addition to the \textit{if then else} and also the \textit{not} statements. Because of this we are able to evaluate an expression like \textit{not 4 == 2} as \textit{not (4 == 2)} even though the \textit{not} operator have a tighter associative binding than \textit{==}. We have been testing the associativity in two test cases \textit{assoc.fo} and \textit{assoc2.fo} to ensure that the bindings are right for all of our operators.   
+ 
 \section{Filter and scan}
 
 	\subsection{Filter}
@@ -195,8 +209,7 @@ val init_regs = [ Mips.ADDI (addr_reg, place, "4") (* point to the next word *)
                 , Mips.SW (acc_reg, addr_reg, "0")
                 , Mips.ADDI (addr_reg, addr_reg, "4") (* point to next word*)
                 , Mips.MOVE(i_reg, "0") (* initialize iterator*)
-                , Mips.ADDI (arr_reg, arr_reg, "4") (* Look at first element in input array *)
-                            ]
+                , Mips.ADDI (arr_reg, arr_reg, "4") (* Look at first element in input array *)]
 ...
 \end{lstlisting}
 
@@ -393,6 +406,7 @@ fun int main() =
 \section*{Appendix}
 
 \appendix
+The following appendix shows the code we have added in the compiler phases Lexer.lex, Parser.grm, TypeChecker.sml, CodeGen.sml, Interpreter.sml and CopyConstPropFold.sml\\\\
 
 \chapter{Lexer.lex}
 

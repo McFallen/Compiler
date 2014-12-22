@@ -1,5 +1,9 @@
 \select@language {english}
 \contentsline {section}{\numberline {1}Multiplication, division, boolean operators and literals}{2}
-\contentsline {section}{\numberline {2}Filter and scan}{2}
-\contentsline {section}{\numberline {3}$\lambda $-expressions in soacs}{2}
-\contentsline {section}{\numberline {4}Copy propagation and constant folding}{4}
+\contentsline {section}{\numberline {2}Filter and scan}{3}
+\contentsline {subsection}{\numberline {2.1}Filter}{3}
+\contentsline {subsubsection}{\numberline {2.1.1}Testing}{3}
+\contentsline {subsection}{\numberline {2.2}Scan}{4}
+\contentsline {subsubsection}{\numberline {2.2.1}Testing}{6}
+\contentsline {section}{\numberline {3}$\lambda $-expressions in soacs}{7}
+\contentsline {section}{\numberline {4}Copy propagation and constant folding}{8}

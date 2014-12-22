@@ -1,29 +1,11 @@
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.12.9)  22 DEC 2014 19:57
-=======
-<<<<<<< Updated upstream
-=======
->>>>>>> Stashed changes
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.12.9)  22 DEC 2014 19:55
-=======
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.12.11)  22 DEC 2014 19:54
->>>>>>> Stashed changes
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.12.9)  22 DEC 2014 21:54
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
 **G-assignment-Nielsen-Nielsen-Leskes.tex
 (./G-assignment-Nielsen-Nielsen-Leskes.tex
 LaTeX2e <2011/06/27>
-<<<<<<< Updated upstream
 Babel <3.9h> and hyphenation patterns for 78 languages loaded.
-=======
-Babel <3.9h> and hyphenation patterns for 64 languages loaded.
->>>>>>> Stashed changes
 (/usr/share/texlive/texmf-dist/tex/latex/koma-script/scrartcl.cls
 Document Class: scrartcl 2013/12/19 v3.12 KOMA-Script document class (article)
 (/usr/share/texlive/texmf-dist/tex/latex/koma-script/scrkbase.sty
@@ -61,13 +43,8 @@ ine 1531.
 
 (/usr/share/texlive/texmf-dist/tex/latex/koma-script/scrsize11pt.clo
 File: scrsize11pt.clo 2013/12/19 v3.12 KOMA-Script font size class option (11pt
-<<<<<<< Updated upstream
 )
 )
-=======
-)
-)
->>>>>>> Stashed changes
 (/usr/share/texlive/texmf-dist/tex/latex/koma-script/typearea.sty
 Package: typearea 2013/12/19 v3.12 KOMA-Script package (type area)
 
@@ -133,7 +110,6 @@ File: lstmisc.sty 2013/08/26 1.5b (Carsten Heinz)
 )
 (/usr/share/texlive/texmf-dist/tex/latex/listings/listings.cfg
 File: listings.cfg 2013/08/26 1.5b listings configuration
-<<<<<<< Updated upstream
 ))
 Package: listings 2013/08/26 1.5b (Carsten Heinz)
 
@@ -1272,139 +1248,192 @@ File: t1cmtt.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 
 LaTeX Warning: Command \textasciitilde invalid in math mode on input line 111.
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 130--133
-
- []
-
 (/usr/share/texlive/texmf-dist/tex/latex/base/ansinew.def
 File: ansinew.def 2008/03/30 v1.1d Input encoding file
 ) [2]
-(/usr/share/texlive/texmf-dist/tex/latex/base/ansinew.def
-File: ansinew.def 2008/03/30 v1.1d Input encoding file
-)
-(/usr/share/texlive/texmf-dist/tex/latex/base/ansinew.def
-File: ansinew.def 2008/03/30 v1.1d Input encoding file
-)
-Underfull \hbox (badness 10000) in paragraph at lines 173--174
+Underfull \hbox (badness 10000) in paragraph at lines 143--148
 
  []
 
+
+Underfull \hbox (badness 10000) in paragraph at lines 143--148
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 149--152
+
+ []
+
+(/usr/share/texlive/texmf-dist/tex/latex/base/ansinew.def
+File: ansinew.def 2008/03/30 v1.1d Input encoding file
+)
+(/usr/share/texlive/texmf-dist/tex/latex/base/ansinew.def
+File: ansinew.def 2008/03/30 v1.1d Input encoding file
+)
 (/usr/share/texlive/texmf-dist/tex/latex/base/ansinew.def
 File: ansinew.def 2008/03/30 v1.1d Input encoding file
 ) [3]
-LaTeX Font Info:    Font shape `T1/futs/bx/n' in size <10.95> not available
-(Font)              Font shape `T1/futs/b/n' tried instead on input line 191.
-
-Underfull \hbox (badness 10000) in paragraph at lines 191--193
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 194--196
+(/usr/share/texlive/texmf-dist/tex/latex/base/ansinew.def
+File: ansinew.def 2008/03/30 v1.1d Input encoding file
+)
+Underfull \hbox (badness 10000) in paragraph at lines 194--197
 
  []
 
 (/usr/share/texlive/texmf-dist/tex/latex/base/ansinew.def
 File: ansinew.def 2008/03/30 v1.1d Input encoding file
 )
-LaTeX Font Info:    Try loading font information for TS1+futs on input line 204
+(/usr/share/texlive/texmf-dist/tex/latex/base/ansinew.def
+File: ansinew.def 2008/03/30 v1.1d Input encoding file
+)
+LaTeX Font Info:    Try loading font information for TS1+futs on input line 208
 .
 
 (/usr/share/texlive/texmf-dist/tex/latex/fourier/ts1futs.fd
 File: ts1futs.fd 2004/03/26 Fontinst v1.926 font definitions for TS1/futs.
-)
-Underfull \hbox (badness 10000) in paragraph at lines 218--220
+) [4]
+Underfull \hbox (badness 10000) in paragraph at lines 216--218
 
  []
 
-[4] (/usr/share/texlive/texmf-dist/tex/latex/base/ansinew.def
+(/usr/share/texlive/texmf-dist/tex/latex/base/ansinew.def
+File: ansinew.def 2008/03/30 v1.1d Input encoding file
+)
+Underfull \hbox (badness 10000) in paragraph at lines 227--228
+
+ []
+
+(/usr/share/texlive/texmf-dist/tex/latex/base/ansinew.def
+File: ansinew.def 2008/03/30 v1.1d Input encoding file
+)
+Underfull \hbox (badness 10000) in paragraph at lines 239--240
+
+ []
+
+(/usr/share/texlive/texmf-dist/tex/latex/base/ansinew.def
 File: ansinew.def 2008/03/30 v1.1d Input encoding file
 )
 (/usr/share/texlive/texmf-dist/tex/latex/base/ansinew.def
 File: ansinew.def 2008/03/30 v1.1d Input encoding file
 ) [5]
+Underfull \hbox (badness 10000) in paragraph at lines 259--260
+
+ []
+
 (/usr/share/texlive/texmf-dist/tex/latex/base/ansinew.def
 File: ansinew.def 2008/03/30 v1.1d Input encoding file
-) [6]
+)
+(/usr/share/texlive/texmf-dist/tex/latex/base/ansinew.def
+File: ansinew.def 2008/03/30 v1.1d Input encoding file
+)
+Underfull \hbox (badness 10000) in paragraph at lines 281--283
+
+ []
+
+(/usr/share/texlive/texmf-dist/tex/latex/base/ansinew.def
+File: ansinew.def 2008/03/30 v1.1d Input encoding file
+)
+Underfull \hbox (badness 10000) in paragraph at lines 296--299
+
+ []
+
+[6] (/usr/share/texlive/texmf-dist/tex/latex/base/ansinew.def
+File: ansinew.def 2008/03/30 v1.1d Input encoding file
+)
+(/usr/share/texlive/texmf-dist/tex/latex/base/ansinew.def
+File: ansinew.def 2008/03/30 v1.1d Input encoding file
+)
 (/usr/share/texlive/texmf-dist/tex/latex/base/ansinew.def
 File: ansinew.def 2008/03/30 v1.1d Input encoding file
 ) [7]
+Underfull \hbox (badness 10000) in paragraph at lines 339--340
+
+ []
+
+(/usr/share/texlive/texmf-dist/tex/latex/base/ansinew.def
+File: ansinew.def 2008/03/30 v1.1d Input encoding file
+)
+Underfull \hbox (badness 10000) in paragraph at lines 357--359
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 360--362
+
+ []
+
+(/usr/share/texlive/texmf-dist/tex/latex/base/ansinew.def
+File: ansinew.def 2008/03/30 v1.1d Input encoding file
+) [8]
+Underfull \hbox (badness 10000) in paragraph at lines 384--386
+
+ []
+
+(/usr/share/texlive/texmf-dist/tex/latex/base/ansinew.def
+File: ansinew.def 2008/03/30 v1.1d Input encoding file
+)
+(/usr/share/texlive/texmf-dist/tex/latex/base/ansinew.def
+File: ansinew.def 2008/03/30 v1.1d Input encoding file
+) [9]
+Underfull \hbox (badness 10000) in paragraph at lines 409--410
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 409--410
+
+ []
+
+(/usr/share/texlive/texmf-dist/tex/latex/base/ansinew.def
+File: ansinew.def 2008/03/30 v1.1d Input encoding file
+) [10]
+(/usr/share/texlive/texmf-dist/tex/latex/base/ansinew.def
+File: ansinew.def 2008/03/30 v1.1d Input encoding file
+) [11]
 (/usr/share/texlive/texmf-dist/tex/latex/base/ansinew.def
 File: ansinew.def 2008/03/30 v1.1d Input encoding file
 )
 LaTeX Font Info:    Font shape `FMX/futm/m/n' will be
-(Font)              scaled to size 8.27998pt on input line 344.
+(Font)              scaled to size 8.27998pt on input line 511.
 LaTeX Font Info:    Font shape `FMX/futm/m/n' will be
-(Font)              scaled to size 6.99199pt on input line 344.
+(Font)              scaled to size 6.99199pt on input line 511.
 LaTeX Font Info:    Font shape `U/futm/m/n' will be
-(Font)              scaled to size 8.27998pt on input line 344.
+(Font)              scaled to size 8.27998pt on input line 511.
 LaTeX Font Info:    Font shape `U/futm/m/n' will be
-(Font)              scaled to size 6.99199pt on input line 344.
- [8] [9]
+(Font)              scaled to size 6.99199pt on input line 511.
+ [12] [13]
 (/usr/share/texlive/texmf-dist/tex/latex/base/ansinew.def
 File: ansinew.def 2008/03/30 v1.1d Input encoding file
-) [10] [11] [12]
-[13] [14] (/usr/share/texlive/texmf-dist/tex/latex/base/ansinew.def
+) [14] [15] [16]
+[17] [18] (/usr/share/texlive/texmf-dist/tex/latex/base/ansinew.def
 File: ansinew.def 2008/03/30 v1.1d Input encoding file
-) [15]
-[16] (/usr/share/texlive/texmf-dist/tex/latex/base/ansinew.def
+) [19]
+[20] (/usr/share/texlive/texmf-dist/tex/latex/base/ansinew.def
 File: ansinew.def 2008/03/30 v1.1d Input encoding file
-) [17]
+) [21]
 (./G-assignment-Nielsen-Nielsen-Leskes.aux) ) 
 Here is how much of TeX's memory you used:
- 18457 strings out of 493304
- 315383 string characters out of 6139871
+ 18498 strings out of 493304
+ 317086 string characters out of 6139871
  1032617 words of memory out of 5000000
- 21479 multiletter control sequences out of 15000+600000
- 100976 words of font info for 116 fonts, out of 8000000 for 9000
+ 21489 multiletter control sequences out of 15000+600000
+ 109562 words of font info for 121 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
- 74i,12n,77p,487b,1943s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 74i,12n,77p,619b,1517s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texlive/texmf-dist/fon
 ts/enc/dvips/base/8r.enc}{/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-t1
 .enc}</usr/share/texlive/texmf-dist/fonts/type1/public/fourier/fourier-mlit.pfb
 ></usr/share/texlive/texmf-dist/fonts/type1/public/fourier/fourier-ms.pfb></usr
-/share/texlive/texmf-dist/fonts/type1/adobe/utopia/putb8a.pfb></usr/share/texli
-ve/texmf-dist/fonts/type1/adobe/utopia/putr8a.pfb></usr/share/texlive/texmf-dis
-t/fonts/type1/adobe/utopia/putri8a.pfb></usr/share/texmf/fonts/type1/public/cm-
-super/sfsx1095.pfb></usr/share/texmf/fonts/type1/public/cm-super/sftt1095.pfb>
-Output written on G-assignment-Nielsen-Nielsen-Leskes.pdf (17 pages, 163924 byt
+/share/texlive/texmf-dist/fonts/type1/adobe/utopia/putr8a.pfb></usr/share/texli
+ve/texmf-dist/fonts/type1/adobe/utopia/putri8a.pfb></usr/share/texmf/fonts/type
+1/public/cm-super/sfsx1095.pfb></usr/share/texmf/fonts/type1/public/cm-super/sf
+tt1095.pfb>
+Output written on G-assignment-Nielsen-Nielsen-Leskes.pdf (21 pages, 171066 byt
 es).
 PDF statistics:
- 92 PDF objects out of 1000 (max. 8388607)
- 65 compressed objects within 1 object stream
+ 101 PDF objects out of 1000 (max. 8388607)
+ 71 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  13 words of extra memory for PDF output out of 10000 (max. 10000000)
 
-=======
-))
-Package: listings 2013/08/26 1.5b (Carsten Heinz)
-
-(/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty
-File: lstlang1.sty 2013/08/26 1.5b listings language file
-)
-
-! LaTeX Error: File `appendix.sty' not found.
-
-Type X to quit or <RETURN> to proceed,
-or enter new name. (Default extension: sty)
-
-Enter file name: 
-! Emergency stop.
-<read *> 
-         
-l.44 \usepackage
-                {subcaption}^^M
-*** (cannot \read from terminal in nonstop modes)
-
- 
-Here is how much of TeX's memory you used:
- 2591 strings out of 493469
- 40452 string characters out of 6145529
- 181110 words of memory out of 5000000
- 6076 multiletter control sequences out of 15000+600000
- 3940 words of font info for 15 fonts, out of 8000000 for 9000
- 902 hyphenation exceptions out of 8191
- 39i,1n,42p,249b,220s stack positions out of 5000i,500n,10000p,200000b,80000s
-!  ==> Fatal error occurred, no output PDF file produced!
->>>>>>> Stashed changes
