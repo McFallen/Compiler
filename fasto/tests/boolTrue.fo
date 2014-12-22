@@ -1,1 +1,1 @@
-fun bool main() = write(True)
+fun bool main() = write(true)

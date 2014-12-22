@@ -5,3 +5,4 @@ fun bool main() =
 	let r4 = (true || true == true) in
 
 		write(r1 && r2 && r3 && r4)
+

@@ -1,0 +1,9 @@
+fun int multi(int a, int b) = a * b
+
+fun int writeInt(int n) = write(n)
+
+fun [int] main() =
+  let a = {1, 2, 3, 4} in
+  let b = map(fn int (int x) => x*2, a) in 
+  let c = scan(multi, 1, b) in
+  map(writeInt, c)

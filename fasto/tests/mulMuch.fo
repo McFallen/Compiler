@@ -1,9 +1,0 @@
-fun int writeInt(int n) = write(n)
-
-fun int main() = 
-  let bab = 5 in
-  let aba = bab
-  in
-      writeInt(aba + bab * 0)
-  
- 

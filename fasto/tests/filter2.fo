@@ -1,0 +1,5 @@
+fun int writeInt(int n) = write(n)
+
+fun [int] main() =
+  let a = filter(fn bool (int x) => 5 < x, {6, 9, 8, 2, ~5}) in
+  map(writeInt, a)
