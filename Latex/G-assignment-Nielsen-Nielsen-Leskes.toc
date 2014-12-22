@@ -1,5 +1,6 @@
 \select@language {english}
 \contentsline {section}{\numberline {1}Multiplication, division, boolean operators and literals}{2}
+<<<<<<< HEAD
 \contentsline {subsection}{\numberline {1.1}Testing}{2}
 \contentsline {subsubsection}{\numberline {1.1.1}Negate}{3}
 \contentsline {subsubsection}{\numberline {1.1.2}And and Or}{3}
@@ -8,3 +9,8 @@
 \contentsline {subsubsection}{\numberline {2.1.1}Testing}{4}
 \contentsline {section}{\numberline {3}$\lambda $-expressions in soacs}{5}
 \contentsline {section}{\numberline {4}Copy propagation and constant folding}{5}
+=======
+\contentsline {section}{\numberline {2}Filter and scan}{2}
+\contentsline {section}{\numberline {3}$\lambda $-expressions in soacs}{2}
+\contentsline {section}{\numberline {4}Copy propagation and constant folding}{4}
+>>>>>>> c3b25d53237c7921425d61c33ec5f2455aa3f041

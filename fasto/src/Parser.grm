@@ -20,8 +20,8 @@ open Fasto.UnknownTypes
 
 %nonassoc ifprec letprec
 %left DEQ LTH
-%left AND 
 %left OR
+%left AND
 %nonassoc NOT
 %left PLUS MINUS
 %left TIMES DIV
@@ -123,7 +123,7 @@ Exp :     NUM           { Constant ( IntVal (#1 $1), #2 $1) }
                         { Let (Dec (#1 $2, $4, $3), $6, $1) }
         | ID LBRACKET Exp RBRACKET
                         { Index (#1 $1, $3, (), $2) }
-        | NOT Exp { Not ( $2, $1 ) }     
+        | NOT Exp %prec ifprec { Not ( $2, $1 ) }     
 ;
 
 Exps : Exp COMMA Exps   { $1 :: $3 }
