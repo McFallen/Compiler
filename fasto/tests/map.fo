@@ -1,6 +1,0 @@
-fun int cc(int a, int b) = a + b
-
-fun int main() =
-	let val x = {1, 2, 3, 4} in
-	let val r = map(cc, x) in
-		write(r)
