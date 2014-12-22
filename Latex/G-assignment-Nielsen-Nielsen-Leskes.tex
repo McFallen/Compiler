@@ -119,9 +119,25 @@
 		, Mips.LABEL falseLabel ]
     \end{verbatim}
     
-    Place is the register in which we want to store our result. We start by putting 0 into place, we then check if our argument b, actually is 0. Since Mips.BNE branches if its arguments are not equal, we will jump to falseLabel if and only if our argument b is 1, thus ending with a 0 in the place register, given we never execute Mips.LI(place, "1").
+    Place is the register in which we want to store our result. We start by putting 0 into place, we then check if our argument b, actually is 0. Since Mips.BNE branches if its arguments are not equal, we will jump to falseLabel if and only if our argument b is 1, thus ending with a 0 in the place register, given we never execute Mips.LI(place, "1").\\\\
     
-For boolean literals we've added for "true" and "false"
+For boolean literals we have added "true" and "false" as cases in the lexer, just before matching on pretty much everything and checking in keywords, else these would be caught there. Another approach could have been adding them to the list of keywords, but we chose not to do this.\\
+\begin{lstlisting}
+| "true"|"false"      { case Bool.fromString (getLexeme lexbuf) of
+                       NONE   => lexerError lexbuf "Bad bool"
+                     | SOME b => Parser.BOOLEAN (b, getPos lexbuf) }
+\end{lstlisting}
+These string are then passed on to the parser where they then are cast to booleans.\\
+\verb"| BOOLEAN       { Constant ( BoolVal (#1 $1), #2 $1) }"
+\\
+Furthermore these are being passed on as constants and evaluated in the code-generator:
+\begin{lstlisting}
+| Constant (BoolVal b, pos) =>
+    if(b) then
+      [Mips.LI(place, "1")]
+    else
+      [Mips.LI(place, "0")]
+\end{lstlisting}
  
 In our associativity we have the following code:
 
