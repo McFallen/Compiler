@@ -1,0 +1,11 @@
+fun bool main() = 
+	let a = 0 in
+	let b = 1 in
+	let c = 4 in
+	let d = 6 in
+
+	let r1 = (a * b == 0) in
+	let r2 = (b * c == 4) in
+	let r3 = (c * d == 24) in
+		
+        write(r1 && r2 && r3)

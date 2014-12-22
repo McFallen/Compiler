@@ -1,16 +1,6 @@
-fun int main() =
-	let x0 = read(int) in
-	let x1 = read(int) in
-	let x2 = read(int) in
-	let x3 = read(int) in
-	let x4 = read(int) in
-	let x5 = read(int) in
-	let x6 = read(int) in
-	let x7 = read(int) in
+fun bool main() =
+	let r1 = (4 / 2 == 2) in
+	let r2 = (3 / 4 == 0) in
+	let r3 = (0 / 2 == 0) in
 
-	let v0 = x0 / x1 in
-	let v1 = x2 / x3 in
-	let v2 = x4 / x5 in
-	let v3 = x6 / x7 in
-
-	write(v0+v1+v2+v3)
+		write(r1 && r2 && r3)

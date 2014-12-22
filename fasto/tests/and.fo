@@ -1,0 +1,7 @@
+fun bool main() = 
+	let r1 = (false && true == false) in
+	let r2 = (true && false == false) in
+	let r3 = (false && false == false) in
+	let r4 = (true && true == true) in
+
+		write(r1 && r2 && r3 && r4)
