@@ -424,7 +424,7 @@ fun evalExp ( Constant (v,_), vtab, ftab ) = v
   | evalExp ( Negate(e1, pos), vtab, ftab ) =
         let val res1 = evalExp(e1, vtab, ftab)
             val res2 = evalExp(Constant(IntVal 0, pos), vtab, ftab)
-        in  evalBinopNum(op +, res1, res2, pos)
+        in  evalBinopNum(op -, res2, res1, pos)
         end
 
   | evalExp ( Not(e1, pos), vtab, ftab ) =

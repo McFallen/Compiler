@@ -672,7 +672,7 @@ structure CodeGen = struct
             val endLabel = newName "endLabel"
             val code1 = compileCond e1 vtable trueLabel falseLabel
             val code2 = compileCond e2 vtable endLabel falseLabel
-        in  [Mips.ADD(place, "0", "1")] @ 
+        in  [Mips.ADDI(place, "0", "1")] @ 
               code1 @ 
               [Mips.LABEL trueLabel] @ 
               code2 @ 
