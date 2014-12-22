@@ -125,6 +125,61 @@
  
 \section{Filter and scan}
 
+	\subsection{Filter}
+	For filter we expect a function with a return type of bool, and some type of array. We make sure this is the case in our typechecker, raise errors if we get a non-array argument or a non-bool function. If everything checks up, we among other things pass the type of the array to the code generator.
+	\\\\
+	Given that filter takes some function and an array as input, and runs this function over the array, we notice that filter and map are similar in ways, so we based the code for filter on the code for map. With the difference being, that we do not want to store some computed value, instead we want to store the original value of the element we might be iterating on, only of the input function returns true.
+	\\\\
+	We acheived this by making changes to the load part, so that we now store the actual value (instead of the computed one), in a register.
+	
+	Since our input and output arrays will be of different sizes, we created a new counter \textit{j\_reg}, which gets incremented only when the input function on an element from the array, returns true.
+	\\\\
+	Between the load and save sequence of map, we made a \textit{check\_fun} instruction set;
+	
+	\begin{lstlisting}
+	val check_fun = [ Mips.BEQ (res_reg, "0", loop_beg)
+	                          , Mips.ADDI (j_reg, j_reg, "1") ]
+	\end{lstlisting}
+	where \textit{res\_reg} is the register in which we place the result of the function call on the input function. We branch to the loop beginning, if the result is false.
+
+	\subsubsection{Testing}
+	We used several tests for filter, making sure we use different types, as well as regular and lambda functions.
+	
+	A test with a regular function, on integers.
+	\begin{lstlisting}
+	fun bool great(int n) = 5 < n
+
+	fun int writeInt(int n) = write(n)
+
+	fun [int] main() =
+  		let a = filter(great, {6, 9, 8, 2}) in
+  		map(writeInt, a)
+	\end{lstlisting}
+
+	Similar test to the above, but with a lambda function, on integers.
+	\begin{lstlisting}
+	fun int writeInt(int n) = write(n)
+
+	fun [int] main() =
+		  let a = filter(fn bool (int x) => 5 < x, {6, 9, 8, 2, ~5}) in
+		  map(writeInt, a)
+	\end{lstlisting}
+
+	A test with a lambda function on bools.
+	\begin{lstlisting}
+	fun bool writeBool(bool s) = write(s)
+
+	fun [bool] main() =
+		let a = {true, false, false, true} in
+		let b = filter(fn bool (bool x) => not x, a) in
+		map(writeBool, b)
+	\end{lstlisting}
+
+	All three tests perform as expected.
+\subsection{Scan}
+
+\subsubsection{Testing}
+
 \section{$\lambda$-expressions in soacs}
 
 To implement this we wanted to use as much from regular functions as possible, so we started going through each step, starting from the lexer, discussing how we could use already used code for function, to our advantage.\\\\

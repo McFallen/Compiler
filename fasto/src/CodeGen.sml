@@ -746,8 +746,7 @@ structure CodeGen = struct
  
  
             (* increments i_reg *)
-            val loop_foot =
-                [ Mips.ADDI(i_reg, i_reg, "1")
+            val loop_foot = [ Mips.ADDI(i_reg, i_reg, "1")
                 , Mips.J loop_beg
                 , Mips.LABEL loop_end ]
            
