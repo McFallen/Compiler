@@ -120,8 +120,8 @@
     \end{verbatim}
     
     Place is the register in which we want to store our result. We start by putting 0 into place, we then check if our argument b, actually is 0. Since Mips.BNE branches if its arguments are not equal, we will jump to falseLabel if and only if our argument b is 1, thus ending with a 0 in the place register, given we never execute Mips.LI(place, "1").
-
-	{\Large HAR INGEN IDE OM BOOL LITS}
+    
+For boolean literals we've added for "true" and "false"
  
 \section{Filter and scan}
 
@@ -251,6 +251,8 @@ val loop_foot = [ Mips.ADDI(i_reg, i_reg, "1")
                 , Mips.LABEL loop_end ]
 \end{lstlisting}
 
+
+\subsubsection{Testing}
 When testing this, we found it does not work properly with bools. A simple test as this:
 \begin{lstlisting}
 fun bool and(bool a, bool b) = a && b
@@ -263,9 +265,19 @@ fun [bool] main() =
   let b = scan(or, true, a) in
   map(writeBool, b)
 \end{lstlisting}
- Yields the output \verb"TrueFalseFalseFalseTrue...True" depending how big you make the array with true, but the 2nd to 4th always stays false. We believe it might have something to do in our code-generator
-\subsubsection{Testing}
+ Yields the output \verb"TrueFalseFalseFalseTrue...True" depending how big you make the array with true, but the 2nd to 4th always stays false. We believe it might have something to do in our code-generator some byte offset not being set porperly, but is somehow corrected when the iteration has run a few times.\\\\
+For integers it works fine, as the test below yields what is expected.
+\begin{lstlisting}
+fun int multi(int a, int b) = a * b
 
+fun int writeInt(int n) = write(n)
+
+fun [int] main() =
+  let a = {1, 2, 3, 4} in
+  let b = map(fn int (int x) => x*2, a) in 
+  let c = scan(multi, 1, b) in
+  map(writeInt, c)
+\end{lstlisting}
 \section{$\lambda$-expressions in soacs}
 
 To implement this we wanted to use as much from regular functions as possible, so we started going through each step, starting from the lexer, discussing how we could use already used code for function, to our advantage.\\\\
@@ -329,7 +341,7 @@ fun int main() =
 
 \section{Copy propagation and constant folding}
 
-	We have implemented \textit{copy propagation and constant foldning} in our compiler, though it does not handle shadowing. Furthermore have all the features from \textbf{REF TIL TASK 1}.\\
+	We have implemented \textit{copy propagation and constant foldning} in our compiler, though it does not handle shadowing. Furthermore have all the features from task 1.\\
 Below is the test-case for Times  explained. This will indicate that both the cases work and it is able to actually optimize by propagating and fold correspondingly.\\
 
 When we want to fold expressions, we can do so, by predicting what the result is going to be of a given expression and return this instead.\\
