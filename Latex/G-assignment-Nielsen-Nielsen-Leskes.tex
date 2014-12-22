@@ -7,7 +7,7 @@
   breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
   breaklines=true,                 % sets automatic line breaking
   captionpos=b,                    % sets the caption-position to bottom
-  commentstyle=\color{mygreen},    % comment style
+  commentstyle=\color{black},    % comment style
   deletekeywords={...},            % if you want to delete keywords from the given language
   escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
   extendedchars=\true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
@@ -16,9 +16,9 @@
   keywordstyle=\color{black},       % keyword style
   language=Octave,                 % the language of the code
   morekeywords={*,...},            % if you want to add more keywords to the set
-  numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
-  numbersep=5pt,                   % how far the line-numbers are from the code
-  numberstyle=\tiny\color{blue}, % the style that is used for the line-numbers
+%  numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
+%  numbersep=5pt,                   % how far the line-numbers are from the code
+%  numberstyle=\tiny\color{blue}, % the style that is used for the line-numbers
   rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
   showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
   showstringspaces=false,          % underline spaces within strings only
@@ -127,6 +127,65 @@
 
 \section{$\lambda$-expressions in soacs}
 
+To implement this we wanted to use as much from regular functions as possible, so we started going through each step, starting from the lexer, discussing how we could use already used code for function, to our advantage.\\\\
+The lexing and parser part was quite simple, as we know $\lambda$-functions always begin with \verb"fn" and the rest looks like a regular function, so we just pass everything on like a regular function. In the parser we put the whole thing under FunArgs, since $\lambda$-functions only are defined as being used in \verb"map, filter, scan and reduce".\\
+Below is the \verb"FunArg"-type shown
+\begin{lstlisting}
+FunArg : ID { FunName (#1 $1) }
+    | FN Type LPAR Params RPAR ARROW Exp
+      { Lambda ( $2, $4, $7, $1 ) }
+    | FN Type LPAR RPAR ARROW Exp
+      { Lambda ( $2, [], $6, $1 ) }
+;
+\end{lstlisting}
+
+As shown, these arguments are passed on to the \verb"Lambda"-function in the typeChecker.\\
+In the typeChecker, we create a \verb"FunDec" using a dummy-name, as suggested. This is then passed to \verb"checkFunWithVtable" where the function is typechecked, then the parameters are typechecked and its passed to the code-generator.\\
+Below is the code for typechecking a \verb"Lambda"-function shown:
+\begin{lstlisting}
+| checkFunArg (In.Lambda (ret_type, params, body, funpos)
+                , vtab, ftab, pos) = 
+      let val (Out.FunDec ( name, _, params, body', pos)) = checkFunWithVtable (In.FunDec ("Lambda", ret_type, params, body, pos), vtab, ftab, funpos)
+        val arg_types = map (fn (Param (_, ty)) => ty) params
+      in  
+      (Out.Lambda(ret_type, params, body', funpos), ret_type, arg_types)
+      end
+\end{lstlisting}
+
+In the code-generator we need to bind the parameters with the arguments in the SymTab and do so recursively using a local defined function \verb"bindVars", that is only available in that scope.\\
+The base-cases is checking if one of the two arrays is empty while the other is not and throw and error if that is the case. Otherwise we want to return to updated vtable, once both the array of arguments and the array of parameters both are depleted simultaneously.\\
+With the new vtable we then compute the expression for the \verb"Lambda"-function.\\
+Below is the code-generation for \verb"Lambda" shown
+\begin{lstlisting}
+  | applyFunArg (Lambda(ret_type, params, body', funpos), args, vtable, place, pos) : Mips.Prog = 
+      let 
+        fun bindVars ([], [], vtable) = vtable
+          | bindVars([], args, vtable) = raise Error("stop det pjat", pos)
+          | bindVars(params, [], vtable) = raise Error("stop det pjat stadigvæk", pos)
+          | bindVars(Param (name, paramtype)::params, arg::args, vtable) = SymTab.bind name arg (bindVars(params, args, vtable))
+      val newVtable = bindVars(params, args, vtable)
+      val code1 = compileExp body' newVtable place
+      in
+        code1
+      end
+\end{lstlisting}
+
+To test this, we simply created a test-case for each of the 4 SOACS that can use $\lambda$ -functions.\\
+
+Below is the test-case for $\lambda$-function in map SOAC. The tests for the other SOACs is found in the tests folder for our project.
+\begin{lstlisting}
+fun int writeInt(int x) = write(x)
+
+fun [int] writeIntArr([int] x) = map(writeInt, x)
+
+fun int main() =
+   let N = read(int) in
+   let z = iota(N)   in
+   let w = writeIntArr(map(fn int (int x) => x + 2, z)) in
+   let nl = write("\n") in
+   writeInt(reduce(op+, 0, w))
+\end{lstlisting}
+
 \section{Copy propagation and constant folding}
 
 	We have implemented \textit{copy propagation and constant foldning} in our compiler, though it does not handle shadowing. Furthermore have all the features from \textbf{REF TIL TASK 1}.\\
@@ -178,6 +237,8 @@ fun int main() =
 
 \pagebreak
 
+\section*{Appendix}
+
 \appendix
 
 \chapter{Lexer.lex}
@@ -200,26 +261,50 @@ fun int main() =
 
 \pagebreak
 \chapter{Parser.grm}
-\begin{lstlisting}[mathescape]
-10  token <(int*int)> IF THEN ELSE LET IN INT BOOL CHAR EOF
-11  token <string*(int*int)> ID STRINGLIT
-12  token <int*(int*int)> NUM
-13  token <char*(int*int)> CHARLIT
-14  token <bool*(int*int)> BOOLEAN
-15  token <(int*int)> PLUS MINUS DEQ EQ LTH NEG NOT ARROW
-16  token <(int*int)> TIMES DIV AND NOT OR LPAR RPAR LBRACKET RBRACKET LCURLY RCURLY
-17  token <(int*int)> COMMA
-18  token <(int*int)> FUN FN IOTA REPLICATE MAP REDUCE FILTER SCAN READ WRITE 
-19  token <(int*int)> OP
+\begin{lstlisting}
+10  %token <(int*int)> IF THEN ELSE LET IN INT BOOL CHAR EOF
+11  %token <string*(int*int)> ID STRINGLIT
+12  %token <int*(int*int)> NUM
+13  %token <char*(int*int)> CHARLIT
+14  %token <bool*(int*int)> BOOLEAN
+15  %token <(int*int)> PLUS MINUS DEQ EQ LTH NEG NOT ARROW
+16  %token <(int*int)> TIMES DIV AND NOT OR LPAR RPAR LBRACKET RBRACKET LCURLY RCURLY
+17  %token <(int*int)> COMMA
+18  %token <(int*int)> FUN FN IOTA REPLICATE MAP REDUCE FILTER SCAN READ WRITE 
+19  %token <(int*int)> OP
 
-21  nonassoc ifprec letprec
-22  left DEQ LTH
-23  left AND 
-24  left OR
-25  nonassoc NOT
-26  left PLUS MINUS
-27  left TIMES DIV
-28  nonassoc NEG
+21  %nonassoc ifprec letprec
+22  %left DEQ LTH
+23  %left OR 
+24  %left AND
+25  %nonassoc NOT
+26  %left PLUS MINUS
+27  %left TIMES DIV
+28  %nonassoc NEG
+
+84          | Exp TIMES Exp  
+85                          { Times($1, $3, $2) }
+86          | Exp DIV Exp  
+87                          { Divide($1, $3, $2) }
+88          | NEG Exp  
+89                          { Negate($2, $1) }
+90          | Exp AND Exp { And($1, $3, $2) }
+91          | Exp OR Exp 
+92                          { Or($1, $3, $2) }
+
+117	        | SCAN LPAR FunArg COMMA Exp COMMA Exp RPAR 
+118	                        { Scan ($3, $5, $7, (), $1)} 
+119	        | FILTER LPAR FunArg COMMA Exp RPAR 
+120	                        { Filter ($3, $5, (), $1) } 
+
+126	        | NOT Exp %prec ifprec { Not ( $2, $1 ) }   
+
+133	FunArg : ID { FunName (#1 $1) } 
+134	    | FN Type LPAR Params RPAR ARROW Exp 
+135	      { Lambda ( $2, $4, $7, $1 ) } 
+136	    | FN Type LPAR RPAR ARROW Exp 
+137	      { Lambda ( $2, [], $6, $1 ) } 
+138	;
 
 \end{lstlisting}
 
