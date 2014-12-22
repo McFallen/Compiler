@@ -104,121 +104,26 @@
 	Negation is implemeted using the Mips.SUB instruction, where we pass the original argument to the operator, and subtracts this from zero.
 
 	So the instruction looks like:
-	\begin{lstlisting}
+	\begin{verbatim}
 		Mips.SUB(place, "0", t1),
-	\end{lstlisting}
+	\end{verbatim}
 
 	where t1 register that holds the argument $x$ for $\textasciitilde x$, and place is the register in which we place the result.
 
 	Not was more complicated than the previous ones, given that this requires more than one instruction to execute. However, the pattern learned here, proved to be useful for implementing and and or as well.
 
-	\begin{lstlisting}
+	\begin{verbatim}
 		[ Mips.LI (place,"0")
 		, Mips.BNE (b,"0",falseLabel)
 		, Mips.LI (place,"1")
 		, Mips.LABEL falseLabel ]
-    \end{lstlisting}
+    \end{verbatim}
     
     Place is the register in which we want to store our result. We start by putting 0 into place, we then check if our argument b, actually is 0. Since Mips.BNE branches if its arguments are not equal, we will jump to falseLabel if and only if our argument b is 1, thus ending with a 0 in the place register, given we never execute Mips.LI(place, "1").
-	\\\\
-	And and Or are almost identical in their implementations. consider the expression e1 \&\& e2. For our code generation we then compile each of the expressions e1, e2, as conditionals, using compileCond, that lets us perform a jump based on the result of the first conditional. So for and, if e1 is false, we immediately jump to the end of the code. While for or, if e1 is true, we do not need to evalutate e2 since we know the entire or expression is already true. We hereby make use of short-circuiting.
-
-
-	\subsection{Testing}
-	Since most of the tests for these features are simple, we will generalize some of them, and talk about the more interesting ones in particular.
-	\\\\
-	The general idea behind the tests was to perform some operation with the feature to test in particular, and then assert the value with a comparator, like:
-	
-	\begin{equation*}
-		x \times y == z.
-	\end{equation*}
-
-
-	The assertions should always be true, so that we can write the result of all the tests with ands. Consider a test with 3 cases, result1, result2 and result3, we would then write the result of the entire test like:
-
-
-	\begin{lstlisting}
-		write(result1 && result2 && result3),
-	\end{lstlisting}
-	
-	which in turn should be true.
-
-
-	\subsubsection{Negate}
-	For negate we tested that $\textasciitilde 0 == 0$, and that $\textasciitilde\textasciitilde x == x$.
-
-
-	\subsubsection{And and Or}
-	For these functions, we made sure to test the entire truth table. The test and.fo:
-
-
-	\begin{lstlisting}
-	fun bool main() = 
-	  let r1 = (false && true == false) in
-	  let r2 = (true && false == false) in
-	  let r3 = (false && false == false) in
-	  let r4 = (true && true == true) in
-
-            write(r1 && r2 && r3 && r4)
-	\end{lstlisting}
-
-	The rest of the tests can be found in the appendix.
 
 	{\Large HAR INGEN IDE OM BOOL LITS}
  
 \section{Filter and scan}
-
-	\subsection{Filter}
-	For filter we expect a function with a return type of bool, and some type of array. We make sure this is the case in our typechecker, raise errors if we get a non-array argument or a non-bool function. If everything checks up, we among other things pass the type of the array to the code generator.
-	\\\\
-	Given that filter takes some function and an array as input, and runs this function over the array, we notice that filter and map are similar in ways, so we based the code for filter on the code for map. With the difference being, that we do not want to store some computed value, instead we want to store the original value of the element we might be iterating on, only of the input function returns true.
-	\\\\
-	We acheived this by making changes to the load part, so that we now store the actual value (instead of the computed one), in a register.
-	
-	Since our input and output arrays will be of different sizes, we created a new counter \textit{j\_reg}, which gets incremented only when the input function on an element from the array, returns true.
-	\\\\
-	Between the load and save sequence of map, we made a \textit{check\_fun} instruction set;
-	
-	\begin{lstlisting}
-	val check_fun = [ Mips.BEQ (res_reg, "0", loop_beg)
-	                          , Mips.ADDI (j_reg, j_reg, "1") ]
-	\end{lstlisting}
-	where \textit{res\_reg} is the register in which we place the result of the function call on the input function. We branch to the loop beginning, if the result is false.
-
-	\subsubsection{Testing}
-	We used several tests for filter, making sure we use different types, as well as regular and lambda functions.
-	
-	A test with a regular function, on integers.
-	\begin{lstlisting}
-	fun bool great(int n) = 5 < n
-
-	fun int writeInt(int n) = write(n)
-
-	fun [int] main() =
-  		let a = filter(great, {6, 9, 8, 2}) in
-  		map(writeInt, a)
-	\end{lstlisting}
-
-	Similar test to the above, but with a lambda function, on integers.
-	\begin{lstlisting}
-	fun int writeInt(int n) = write(n)
-
-	fun [int] main() =
-		  let a = filter(fn bool (int x) => 5 < x, {6, 9, 8, 2, ~5}) in
-		  map(writeInt, a)
-	\end{lstlisting}
-
-	A test with a lambda function on bools.
-	\begin{lstlisting}
-	fun bool writeBool(bool s) = write(s)
-
-	fun [bool] main() =
-		let a = {true, false, false, true} in
-		let b = filter(fn bool (bool x) => not x, a) in
-		map(writeBool, b)
-	\end{lstlisting}
-
-	All three tests perform as expected.
 
 \section{$\lambda$-expressions in soacs}
 
